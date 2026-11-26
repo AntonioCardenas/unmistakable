@@ -1,0 +1,16 @@
+{
+  "name": "unmistakable",
+  "owner": {
+    "name": "Antonio Cardenas",
+    "url": "https://github.com/AntonioCardenas"
+  },
+  "metadata": {
+    "description": "Unmistakable anti-slop frontend design, 53-rule scanner, living design systems, and SEO/GEO skill for Cursor"
+  },
+  "plugins": [
+    {
+      "name": "unmistakable",
+      "source": "./"
+    }
+  ]
+}

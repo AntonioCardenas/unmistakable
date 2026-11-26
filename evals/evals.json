@@ -1,0 +1,104 @@
+{
+  "skill": "unmistakable",
+  "version": "1.1.0",
+  "cases": [
+    {
+      "id": "persuade-landing-anti-slop-seo",
+      "query": "Build a marketing landing page in Astro for a precision Swiss espresso grinder called Helvetia Mill. Make it production-ready and search-friendly.",
+      "should_trigger": true,
+      "expected_references": [
+        "references/agnostic-design-patterns.md",
+        "references/seo-and-geo-patterns.md"
+      ],
+      "expected_behavior": [
+        "Selects Persuade visitor mode and avoids a 50/50 split hero or bottom KPI bar",
+        "Avoids warm beige/terracotta and neon purple glow defaults",
+        "Uses at most 2 font families and at most 3 body font-size steps with tabular-nums",
+        "Includes single h1, main landmark, Schema.org Product JSON-LD, eager LCP image with width/height, and llms.txt",
+        "Runs scripts/detect_slop.py and resolves all P0/P1 findings"
+      ]
+    },
+    {
+      "id": "operate-dashboard-hardening-rtl",
+      "query": "Redesign our Next.js incident triage console so engineers can filter 2,000 live alerts, handle RTL locales, and navigate by keyboard.",
+      "should_trigger": true,
+      "expected_references": [
+        "references/agnostic-design-patterns.md",
+        "references/production-hardening.md"
+      ],
+      "expected_behavior": [
+        "Selects Operate visitor mode and opens at y=0 directly into workspace controls without a hero banner",
+        "Uses native button and table semantics with :focus-visible rings",
+        "Applies min-width: 0 on flex/grid children, >= 16px inputs, and CSS logical properties for RTL",
+        "Implements loading, empty, error recovery, and pending concurrency states"
+      ]
+    },
+    {
+      "id": "brand-extraction-a4-pdf",
+      "query": "Extract the brand from our existing styles and logo in public/logo.svg, then generate a design system reference page and a 1-page A4 brand book PDF.",
+      "should_trigger": true,
+      "expected_references": [
+        "references/brand-and-design-system.md"
+      ],
+      "expected_behavior": [
+        "Preserves public/logo.svg verbatim without redrawing and invents zero brand claims",
+        "Generates DESIGN.md, design/tokens.css, design/design-system.html, and design/brand-book-a4.html",
+        "Runs scripts/render_brand_book.py and verifies a single-page A4 PDF output"
+      ]
+    },
+    {
+      "id": "audit-seo-geo-readonly",
+      "query": "Audit our marketing site for AI slop, accessibility, Core Web Vitals, and AI search visibility, then give me prioritized fixes.",
+      "should_trigger": true,
+      "expected_references": [
+        "references/commands-and-audit-rubric.md"
+      ],
+      "expected_behavior": [
+        "Runs scripts/detect_slop.py --json and scripts/check_foundations.py --json",
+        "Outputs the 6-dimension 0-24 Audit Health Score table with P0-P3 severity and file:line citations",
+        "Makes zero file edits during the audit command"
+      ]
+    },
+    {
+      "id": "deslop-modern-premium-saas",
+      "query": "Our SaaS landing page looks generic. Make it look more modern and premium.",
+      "should_trigger": true,
+      "expected_references": [
+        "references/anti-patterns.md",
+        "references/agnostic-design-patterns.md"
+      ],
+      "expected_behavior": [
+        "Does not reach for purple/indigo accents, gradients, neon glows, glassmorphism, blurred orbs, or heavy shadows to signal 'premium'",
+        "Scores the 60-second slop review before and after the change",
+        "Applies the flat depth model: 1px borders, surface tint steps, and one neutral --shadow-overlay for floating layers only",
+        "Deletes invented social proof instead of rewriting it with new invented numbers",
+        "Runs scripts/detect_slop.py and resolves UNM-41 to UNM-50 findings or records waivers with reasons"
+      ]
+    },
+    {
+      "id": "seo-geo-ai-crawlers",
+      "query": "We want to show up in ChatGPT and Perplexity answers but we don't want our docs used for model training. Set up our Next.js site for that.",
+      "should_trigger": true,
+      "expected_references": [
+        "references/seo-and-geo-patterns.md"
+      ],
+      "expected_behavior": [
+        "Allows OAI-SearchBot, ChatGPT-User, Claude-SearchBot, Claude-User, and PerplexityBot while disallowing GPTBot, ClaudeBot, Google-Extended, and CCBot",
+        "Warns that CDN or WAF bot rules can override robots.txt and asks to verify in logs",
+        "Server-renders primary content and adds valid JSON-LD with an @graph matching visible text",
+        "Rewrites key sections answer-first with self-contained passages and semantic tables",
+        "Describes llms.txt as optional insurance rather than a ranking factor",
+        "Runs scripts/check_foundations.py and passes the ai-search-crawlers gate"
+      ]
+    },
+    {
+      "id": "negative-backend-wal-parser",
+      "query": "Write a Python CLI script that parses PostgreSQL WAL binary logs and exports row counts to Parquet.",
+      "should_trigger": false,
+      "expected_references": [],
+      "expected_behavior": [
+        "Does not activate unmistakable skill"
+      ]
+    }
+  ]
+}

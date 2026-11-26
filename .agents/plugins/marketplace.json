@@ -1,0 +1,41 @@
+{
+  "name": "unmistakable",
+  "owner": {
+    "name": "Antonio Cardenas",
+    "url": "https://github.com/AntonioCardenas"
+  },
+  "metadata": {
+    "description": "Anti-slop frontend design skill for coding agents: bans purple gradients, neon glows, glass cards, and heavy shadows, with a 53-rule offline scanner, living design systems and A4 brand books, and technical SEO + GEO.",
+    "version": "1.1.0"
+  },
+  "plugins": [
+    {
+      "name": "unmistakable",
+      "source": "./",
+      "description": "Design, audit, and ship web interfaces without AI slop: no purple gradients, glows, glass, or heavy shadows. 53-rule scanner, A4 brand books, and SEO/GEO-ready frontends.",
+      "version": "1.1.0",
+      "author": {
+        "name": "Antonio Cardenas"
+      },
+      "homepage": "https://github.com/AntonioCardenas/unmistakable",
+      "repository": "https://github.com/AntonioCardenas/unmistakable",
+      "license": "MIT",
+      "keywords": [
+        "frontend-design",
+        "ui-design",
+        "design-system",
+        "brand-book",
+        "anti-ai-slop",
+        "accessibility",
+        "technical-seo",
+        "geo",
+        "claude-code",
+        "cursor",
+        "antigravity",
+        "ai-slop",
+        "tailwind",
+        "design-linter"
+      ]
+    }
+  ]
+}

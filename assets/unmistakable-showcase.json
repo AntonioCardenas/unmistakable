@@ -1,0 +1,12 @@
+{
+  "model": "gemini-nano-banana-2.1",
+  "prompt": "A 90-degree overhead archival flatbed scan of a minimalist hand-drawn architectural grid-system specification sheet on warm off-white millimeter graph paper (#FAF8F4), illustrated entirely with a fine 0.38mm dark navy-black ballpoint pen. A whisper-faint, precise square coordinate grid and 12-column Swiss modular layout guidelines underlie the drawing, marked with delicate corner crop registration crosses (+) and tiny tick marks along the margins. At the top-left of the grid, the exact word \"UNMISTAKABLE\" is hand-lettered in crisp, disciplined architectural block capitals above a single ruled datum line. Below the datum line, the 16:9 sheet is organized with generous negative space into a Swiss modular layout: on the left two-thirds, a clean asymmetric web viewport wireframe with hand-ruled typographic hierarchy bars, proportional dimension arrows, and three square color-token swatches shaded with neat 45-degree parallel ballpoint cross-hatching at three densities (dense, medium, light); on the right one-third, a compact mobile viewport frame and a simple structural node tree diagram aligned to the same horizontal baseline grid, annotated only with tiny clean drafted labels \"GRID\", \"TOKENS\", and \"GEO\". Uniform shadowless flatbed illumination highlights the tactile matte cotton paper tooth and subtle natural ballpoint ink pressure variations at line intersections. Strictly flat 2D paper scan — no 3D devices, no pens or rulers resting on the page, no angled desk mockup, no gradients, and no gibberish filler text.",
+  "reference_images": [],
+  "params": {
+    "aspect_ratio": "16:9",
+    "image_size": "2K"
+  },
+  "cost": "$0.07",
+  "created": "2026-11-26T06:40:51Z",
+  "approved_by_user": true
+}

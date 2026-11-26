@@ -1,0 +1,12 @@
+{
+  "model": "gemini-nano-banana-2.1",
+  "prompt": "A 90-degree overhead archival flatbed scan of a minimalist hand-drawn architectural comparison sheet on warm off-white millimeter graph paper (#FAF8F4), illustrated with a fine 0.38mm dark navy-black ballpoint pen and a fine red ballpoint drafting pen. A whisper-faint square coordinate grid and four corner crop registration crosses (+) frame the 16:9 sheet, which is split down the middle by a clean vertical ruled datum line into two side-by-side browser wireframe panels. Above the left panel, clean hand-lettered architectural block capitals read \"DEFAULT SLOP\" on the left and \"55 FINDINGS\" on the right; inside the left wireframe is a cliché generic layout (a cramped 50/50 split hero with a rounded pill badge, two pill buttons, a row of three identical icon-in-a-box cards) marked up with crisp red ballpoint diagonal revision slashes and red callout ticks indicating layout errors. Above the right panel, clean hand-lettered block capitals read \"UNMISTAKABLE\" on the left and \"0 FINDINGS\" in red ink on the right; inside the right wireframe is a disciplined Swiss modular grid layout featuring bold asymmetric typographic hierarchy bars at top, a precise technical cross-section schematic diagram with circular detail hatching and dimension arrows in the center, and a clean ruled specification table at the bottom. Uniform shadowless flatbed illumination, generous negative space, tactile cotton graph paper grain, strictly flat 2D scan with no 3D mockup, no pens on the page, and no other text.",
+  "reference_images": [],
+  "params": {
+    "aspect_ratio": "16:9",
+    "image_size": "2K"
+  },
+  "cost": "$0.07",
+  "created": "2026-11-26T06:43:19Z",
+  "approved_by_user": true
+}

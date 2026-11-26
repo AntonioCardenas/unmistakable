@@ -1,0 +1,153 @@
+# Unmistakable: full reference for AI agents and answer engines
+
+> Unmistakable is an open-source (MIT) agent skill that stops coding agents from shipping generic AI-looking web interfaces. It combines taste rules an agent can follow (Visitor Modes, a Direction Contract, a flat depth model, strict type discipline, no invented facts) with a 53-rule offline scanner, a 17-gate ship checklist, design-system and A4 brand-book generators, and technical SEO plus GEO patterns. Scripts use the Python 3.8+ standard library only: no API keys, no network, no telemetry.
+
+Repository: https://github.com/AntonioCardenas/unmistakable
+
+## Install
+
+- Skills CLI: `npx skills add AntonioCardenas/unmistakable`
+- Claude Code: `/plugin marketplace add AntonioCardenas/unmistakable`, then `/plugin install unmistakable@unmistakable`
+- Git: `git clone https://github.com/AntonioCardenas/unmistakable ~/.claude/skills/unmistakable` (or `.agents/skills/unmistakable/` for Codex, Gemini CLI, Antigravity, OpenCode)
+
+Supported agents: Claude Code, Cursor, Codex CLI, Gemini CLI, GitHub Copilot, Windsurf, OpenCode, Google Antigravity. Supported stacks: React, Next.js, Vue, Nuxt, SvelteKit, Astro, Angular, Solid, Web Components, Tailwind CSS v3 and v4, plain HTML/CSS.
+
+## Standing rules
+
+1. Honor the brief or derive color, contrast, and rhythm from the subject's physical materials. Spent priors: beige/terracotta with display serifs, dark slate with neon glow, and the Tailwind indigo/violet accent.
+2. Match the opening viewport to the Visitor Mode: Persuade (one bold full-viewport idea, at most 25 words of support, one action, no 50/50 split hero), Operate (no hero, open into the workspace), Read (open into the text at a 45ch-68ch measure), Experience (the work owns the first viewport).
+3. Keep light and depth flat: no decorative gradients, gradient text, colored or glow shadows, glassmorphism, blurred orbs, or idle loops. Depth comes from 1px borders and surface tint steps; one neutral `--shadow-overlay` token for menus, popovers, dialogs, and toasts. Resting cards get no shadow.
+4. Typography and structure: at most 2 font families, at most 3 body sizes, `tabular-nums` for numbers, no eyebrow labels, no decorative 01/02 numbering, no nested cards, at most 3 radius steps.
+5. Never invent facts: no fabricated metrics, ratings, testimonials, customer counts, or logos. Brand tokens and SVG logos come from the real source.
+6. Keep development contracts in PRODUCT.md and DESIGN.md, never in shipped markup or JSON-LD.
+7. Verify with `scripts/detect_slop.py`, `scripts/check_foundations.py`, the 60-second slop review, and 1440x900 plus 390x844 renders.
+
+## Commands (`/unmistakable <command> [target]`)
+
+- System and setup: `init`, `system [ref]`, `document`, `extract [target]`
+- Build and steer: `shape`, `build`, `deslop`, `typeset`, `layout`, `colorize`, `animate`, `bolder`, `quieter`, `distill`
+- Evaluate: `audit` (six dimensions scored 0-24, P0-P3 findings, no edits), `critique` (memory, competitor swap, squint, mode fit, state completeness, tell count)
+- Harden and ship: `harden`, `optimize`, `seo`, `foundations`, `polish`
+
+## The 60-second slop review
+
+One point per yes on the first viewport: (1) gradient, glow, glass, or blob present; (2) indigo/violet/purple accent without a brand reason; (3) pill or eyebrow above the h1; (4) 50/50 split hero with a stat strip; (5) any unsourced number, rating, logo, or testimonial; (6) resting cards cast shadows; (7) emoji or sparkle used as an icon; (8) filler copy (elevate, seamless, supercharge, reimagined, cutting-edge); (9) anything moving that the user did not touch; (10) more than 3 radii or more than 5 font sizes. Score 0-1 ship, 2-3 run `deslop`, 4 or more return to `shape`.
+
+## Scanner rules (`scripts/detect_slop.py`)
+
+- `UNM-01` (P1, Slop): Pre-heading .eyebrow or .kicker label perched above a heading.
+- `UNM-02` (P2, Slop): Decorative 01/02/03 or [01] prefix inside a heading.
+- `UNM-03` (P2, Slop): Gradient text fill (background-clip: text with transparent color).
+- `UNM-04` (P1, Slop): Nested card container inside another card container.
+- `UNM-05` (P2, Slop): One-sided thick accent border bar on a rounded container.
+- `UNM-06` (P2, Slop): Zero-offset neon glow halo (box-shadow: 0 0 <blur> <color>).
+- `UNM-07` (P2, Slop): Purple-to-blue/cyan/pink AI cliche gradient.
+- `UNM-08` (P2, Slop): Synthetic LIVE dot or SCROLL DOWN decorative cue.
+- `UNM-09` (P2, Copy): Generic AI marketing filler phrase in UI copy.
+- `UNM-10` (P2, Copy): Headline split mid-phrase with <br><em> italic cliche.
+- `UNM-11` (P3, Copy): Em-dash character (U+2014) in UI markup copy.
+- `UNM-12` (P2, Copy): Placeholder lorem ipsum or example@example.com left in UI.
+- `UNM-13` (P2, Type): More than 2 distinct font-family stacks declared.
+- `UNM-14` (P2, Type): Excessive distinct font-size steps (> 5) in one stylesheet.
+- `UNM-15` (P1, Type): Micro font-size below 12px (0.75rem).
+- `UNM-16` (P1, Forms): Form control font-size below 16px (1rem).
+- `UNM-17` (P2, Type): Tracked-out ALL CAPS micro-label styling.
+- `UNM-18` (P1, Perf): transition: all or transition-all animating layout properties.
+- `UNM-19` (P2, Motion): ease-in timing function used on UI transition.
+- `UNM-20` (P1, A11y): Animations or transitions missing @media (prefers-reduced-motion: reduce).
+- `UNM-21` (P2, Perf): Broad or universal will-change declaration.
+- `UNM-22` (P0, A11y): Click handler attached to non-interactive <div> or <span>.
+- `UNM-23` (P0, A11y): <img> element missing alt attribute.
+- `UNM-24` (P1, CWV): <img> missing explicit width and height (or aspect-ratio), risking CLS.
+- `UNM-25` (P1, CWV): Above-the-fold hero image marked loading="lazy".
+- `UNM-26` (P0, A11y): Focus outline removed without a visible :focus-visible replacement.
+- `UNM-27` (P1, A11y): Skipped heading level (e.g. <h1> jumping directly to <h3>).
+- `UNM-28` (P1, A11y): Icon-only <button> missing accessible text or aria-label.
+- `UNM-29` (P1, A11y): Form <input> missing associated <label>, aria-label, or aria-labelledby.
+- `UNM-30` (P2, Tokens): Scattered hardcoded hex literals outside :root/@theme token definitions.
+- `UNM-31` (P2, RTL): Physical left/right margin or padding on an RTL-enabled document.
+- `UNM-32` (P2, Icons): Raw emoji glyph used inside button or navigation UI chrome.
+- `UNM-33` (P1, SEO): Full HTML document missing lang attribute on <html>.
+- `UNM-34` (P1, SEO): Full HTML document missing <main> landmark.
+- `UNM-35` (P1, SEO): Full HTML document has zero or multiple <h1> elements.
+- `UNM-36` (P1, SEO): Full HTML <head> missing <title> or <meta name="description">.
+- `UNM-37` (P2, SEO): Full HTML <head> missing <link rel="canonical">.
+- `UNM-38` (P2, SEO): Full HTML <head> missing og:image social preview metadata.
+- `UNM-39` (P2, GEO): Full public HTML document missing Schema.org application/ld+json.
+- `UNM-40` (P1, SEO): Anchor link missing href or using vague 'click here' / 'read more' text.
+- `UNM-41` (P2, Slop): Decorative multi-color gradient fill on a background, button, or border.
+- `UNM-42` (P2, Slop): Stock AI purple accent (Tailwind indigo/violet/purple 400-700 or equivalent).
+- `UNM-43` (P2, Slop): Colored shadow or glow (chromatic box-shadow, text-shadow, or drop-shadow).
+- `UNM-44` (P2, Slop): Heavy or stacked decorative drop shadow (elevation soup).
+- `UNM-45` (P2, Slop): Glassmorphism panel (backdrop-filter blur on a translucent surface).
+- `UNM-46` (P2, Slop): Blurred decorative orb or aurora blob (filter: blur >= 40px).
+- `UNM-47` (P2, Motion): Idle infinite decorative animation (float, bob, glow pulse, gradient shift, bounce).
+- `UNM-48` (P3, Sloppy): Border-radius drift (more than 3 distinct radius steps in one file).
+- `UNM-49` (P3, Sloppy): Magic-number drift (off-grid spacing, arbitrary spacing values, or z-index escalation).
+- `UNM-50` (P2, Copy): Unverified social-proof filler (Trusted by 10,000+, Join 50k+, five-star strings).
+- `UNM-51` (P1, GEO): Malformed JSON-LD block (invalid JSON or missing @context).
+- `UNM-52` (P2, SEO): Relative or non-HTTPS canonical, og:url, og:image, or twitter:image URL.
+- `UNM-53` (P2, SEO): Dead placeholder link (href="#" or href="javascript:...").
+
+Waive a deliberate exception with `/* unmistakable-disable UNM-XX: reason */` (line) or `unmistakable-disable-file` (file). `--report-unused-ignores` fails on stale waivers.
+
+## Ship-readiness gates (`scripts/check_foundations.py`)
+
+1. `secrets-out-of-repo`: no private keys or live tokens in tracked files (values are never printed)
+2. `design-tokens`: semantic CSS custom properties defined and consumed via `var()`
+3. `no-ai-slop-patterns`: zero P0/P1 findings from `scripts/detect_slop.py`
+4. `reduced-motion-guard`: motion paired with `prefers-reduced-motion: reduce`
+5. `semantic-landmarks`: `<main>` and `<h1>` present
+6. `not-found-route`: custom 404 route
+7. `app-icons`: favicon and touch icon
+8. `social-previews`: `og:image` / `twitter:image`
+9. `canonical-and-meta`: title, description, canonical
+10. `structured-data-jsonld`: Schema.org JSON-LD present
+11. `robots-and-sitemap`: robots.txt and sitemap
+12. `llms-geo-index`: llms.txt present
+13. `legal-routes`: privacy and terms routes
+14. `readme-commands`: README commands match package scripts
+15. `ci-verification`: CI runs tests or checks
+16. `no-giant-files`: UI source files under 1,000 lines
+17. `ai-search-crawlers`: robots.txt does not block search or AI answer agents (training crawlers may be blocked)
+
+## SEO and GEO summary
+
+- Primary content, prices, tables, canonical, and JSON-LD render in the initial HTML; most AI crawlers do not execute JavaScript.
+- Answer engines retrieve passages: answer each heading in the first 40-60 words, name the entity in every section, use definition sentences, semantic tables, and sourced statistics. The GEO study (Aggarwal et al., KDD 2024) found citations, quotations, and statistics raise visibility in generative answers by up to about 40%; keyword stuffing does not.
+- JSON-LD uses an `@graph`, matches visible text, and is validated. Google limits FAQ rich results to well-known government and health sites and no longer shows HowTo rich results.
+- Crawler access: search and user-triggered agents (Googlebot, Bingbot, OAI-SearchBot, ChatGPT-User, Claude-SearchBot, Claude-User, PerplexityBot, Perplexity-User) stay allowed; training crawlers (GPTBot, ClaudeBot, Google-Extended, Applebot-Extended, CCBot) can be blocked without losing AI search. CDN and WAF bot rules can override robots.txt.
+- llms.txt is a proposal read by coding agents and docs tools; Google has said it does not use it for Search. Ship it as cheap insurance, not a ranking lever.
+- Measure with Search Console, Bing Webmaster Tools, AI referrer segments (chatgpt.com, perplexity.ai, copilot.microsoft.com, gemini.google.com, claude.ai), `utm_source=chatgpt.com`, bot fetches in logs, and a monthly prompt panel.
+
+## CLI
+
+```bash
+python3 scripts/detect_slop.py src/
+python3 scripts/detect_slop.py src/ --fail-on P1
+python3 scripts/detect_slop.py src/ --json
+python3 scripts/detect_slop.py src/ --sarif > unmistakable.sarif
+python3 scripts/detect_slop.py --list-rules
+python3 scripts/check_foundations.py . --json
+python3 scripts/render_brand_book.py design/brand-book-a4.html design/brand-book-a4.pdf
+```
+
+## GitHub Action
+
+```yaml
+- uses: AntonioCardenas/unmistakable@v1
+  with:
+    path: src
+    fail-on: P1
+- uses: github/codeql-action/upload-sarif@v3
+  if: always()
+  with:
+    sarif_file: unmistakable.sarif
+```
+
+## FAQ
+
+- Is Unmistakable free? Yes, MIT licensed.
+- Does it need an API key or network access? No. The scripts run offline on the Python standard library.
+- Will it block a brand that is genuinely purple? No. Record the brand in DESIGN.md and waive `UNM-42` once with a reason.
+- Does it replace axe or Lighthouse? No. It complements them by catching taste-level and content-level tells they do not check.

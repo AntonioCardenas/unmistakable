@@ -1,0 +1,12 @@
+{
+  "model": "gemini-nano-banana-2.1",
+  "prompt": "A 90-degree overhead archival flatbed scan of a minimalist hand-drawn architectural manifesto and social preview card on warm off-white millimeter graph paper (#FAF8F4), illustrated with a fine 0.38mm dark navy-black ballpoint pen and a fine red ballpoint drafting pen. Framed by four corner crop registration crosses (+) and a faint square coordinate grid, the 16:9 composition is divided into a two-thirds left main column and a one-third right column separated by a thin vertical ruled datum line. In the left column, large, bold, hand-drafted architectural block capitals read \"UNMISTAKABLE\" across the upper zone, underscored by a short, crisp red ballpoint accent rule; below it sits a precision Swiss modular grid diagram with proportional dimension arrows and three square token swatches shaded with neat 45-degree parallel ballpoint cross-hatching at three densities (dense, medium, light). In the right column, a vertical stack of five compact wireframe antipattern rows (a rounded eyebrow pill, a 50/50 split box, and a 3-card row) each struck through cleanly with a single horizontal red ballpoint pen line. Along the bottom margin, a full-width horizontal datum line anchors three tiny, clean hand-lettered technical labels aligned to the grid columns: \"DESIGN SYSTEMS\", \"SARIF\", and \"SEO + GEO\". Uniform shadowless scanner lighting, generous negative space, strictly flat 2D paper scan with no 3D objects and no other text.",
+  "reference_images": [],
+  "params": {
+    "aspect_ratio": "16:9",
+    "image_size": "2K"
+  },
+  "cost": "$0.07",
+  "created": "2026-11-26T06:43:19Z",
+  "approved_by_user": true
+}

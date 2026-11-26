@@ -1,0 +1,40 @@
+name: New slop pattern
+description: Report an AI-generated UI tell that Unmistakable does not catch yet.
+title: "[Pattern] "
+labels: ["new-pattern"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping the catalog grow. The best reports show the tell in real generated output and explain why it reads as a default rather than a decision.
+  - type: textarea
+    id: tell
+    attributes:
+      label: The tell
+      description: What does it look like, and where have you seen agents produce it?
+      placeholder: "Example: every generated pricing page highlights the middle tier with a glowing purple ring."
+    validations:
+      required: true
+  - type: textarea
+    id: sample
+    attributes:
+      label: Minimal markup or CSS
+      description: The smallest snippet that reproduces it (HTML, JSX, Vue, Svelte, CSS, or Tailwind classes).
+      render: html
+    validations:
+      required: true
+  - type: textarea
+    id: instead
+    attributes:
+      label: What to do instead
+      description: The fix you would want the agent to apply.
+  - type: textarea
+    id: exceptions
+    attributes:
+      label: Legitimate uses
+      description: When is this pattern correct? Rules ship with false-positive guards, so this matters.
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Screenshot
+      description: Drag in a screenshot if you have one.

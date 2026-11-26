@@ -1,0 +1,45 @@
+name: Unmistakable AI-Slop Scanner
+description: Fail pull requests that ship AI-slop UI, accessibility, Core Web Vitals, and SEO/GEO defects. 53 offline rules with SARIF output.
+author: Antonio Cardenas
+branding:
+  icon: eye
+  color: orange
+
+inputs:
+  path:
+    description: File or directory to scan.
+    required: false
+    default: "."
+  fail-on:
+    description: Lowest severity that fails the step (P0, P1, P2, or P3).
+    required: false
+    default: P1
+  sarif-file:
+    description: Where to write the SARIF 2.1.0 report for github/codeql-action/upload-sarif.
+    required: false
+    default: unmistakable.sarif
+
+outputs:
+  sarif-file:
+    description: Path of the SARIF report.
+    value: ${{ steps.scan.outputs.sarif-file }}
+
+runs:
+  using: composite
+  steps:
+    - id: scan
+      shell: bash
+      env:
+        UNM_PATH: ${{ inputs.path }}
+        UNM_FAIL_ON: ${{ inputs.fail-on }}
+        UNM_SARIF: ${{ inputs.sarif-file }}
+      run: |
+        set +e
+        case "$UNM_FAIL_ON" in P0|P1|P2|P3) ;; *) echo "::error::fail-on must be P0, P1, P2, or P3 (got '$UNM_FAIL_ON')."; exit 1 ;; esac
+        python3 "$GITHUB_ACTION_PATH/scripts/detect_slop.py" "$UNM_PATH" --sarif > "$UNM_SARIF"
+        if [ "$?" -eq 1 ]; then
+          echo "::error::Unmistakable could not read '$UNM_PATH'."
+          exit 1
+        fi
+        echo "sarif-file=$UNM_SARIF" >> "$GITHUB_OUTPUT"
+        python3 "$GITHUB_ACTION_PATH/scripts/detect_slop.py" "$UNM_PATH" --fail-on "$UNM_FAIL_ON"

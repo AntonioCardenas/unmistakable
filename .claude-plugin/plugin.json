@@ -1,0 +1,13 @@
+{
+  "name": "unmistakable",
+  "description": "Anti-slop frontend design, living HTML/A4 PDF design systems, edge-case hardening, and Technical SEO / AI GEO skill with 19 commands and 53 deterministic checks.",
+  "version": "1.1.0",
+  "author": {
+    "name": "Antonio Cardenas",
+    "url": "https://github.com/AntonioCardenas"
+  },
+  "homepage": "https://github.com/AntonioCardenas/unmistakable",
+  "repository": "https://github.com/AntonioCardenas/unmistakable",
+  "license": "MIT",
+  "skills": "./"
+}

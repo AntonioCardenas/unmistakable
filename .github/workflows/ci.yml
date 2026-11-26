@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run unit tests and skill structure checks
+        run: python3 evals/test_unmistakable.py
+      - name: Self-check repository foundations
+        run: python3 scripts/check_foundations.py .
+      - name: Scanner flags the slop fixture
+        run: |
+          set +e
+          python3 scripts/detect_slop.py evals/fixtures/slop-landing.html --fail-on P1 > /dev/null
+          test $? -eq 2
+      - name: Dogfood the GitHub Action on the clean fixture
+        uses: ./
+        with:
+          path: evals/fixtures/unmistakable-landing.html
+          fail-on: P3

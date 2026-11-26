@@ -1,0 +1,78 @@
+{
+  "name": "unmistakable",
+  "version": "1.1.0",
+  "description": "Anti-slop frontend design skill for coding agents: bans purple gradients, neon glows, glass cards, and heavy shadows, with a 53-rule offline scanner, living design systems and A4 brand books, and technical SEO + GEO.",
+  "license": "MIT",
+  "author": {
+    "name": "Antonio Cardenas",
+    "url": "https://github.com/AntonioCardenas"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AntonioCardenas/unmistakable.git"
+  },
+  "homepage": "https://github.com/AntonioCardenas/unmistakable#readme",
+  "bugs": {
+    "url": "https://github.com/AntonioCardenas/unmistakable/issues"
+  },
+  "scripts": {
+    "test": "python3 evals/test_unmistakable.py",
+    "detect": "python3 scripts/detect_slop.py",
+    "foundations": "python3 scripts/check_foundations.py .",
+    "scan:fixtures": "python3 scripts/detect_slop.py evals/fixtures/unmistakable-landing.html"
+  },
+  "files": [
+    "SKILL.md",
+    "README.md",
+    "README.es.md",
+    "LICENSE",
+    "llms.txt",
+    "llms-full.txt",
+    "assets/",
+    "references/",
+    "scripts/",
+    "action.yml"
+  ],
+  "keywords": [
+    "agent-skills",
+    "ai-agents",
+    "claude-code",
+    "claude-skills",
+    "cursor",
+    "cursor-rules",
+    "antigravity",
+    "codex",
+    "frontend-design",
+    "ui-design",
+    "ux-design",
+    "design-system",
+    "design-tokens",
+    "brand-book",
+    "anti-ai-slop",
+    "web-design",
+    "accessibility",
+    "wcag",
+    "core-web-vitals",
+    "technical-seo",
+    "generative-engine-optimization",
+    "geo",
+    "llms-txt",
+    "json-ld",
+    "sarif",
+    "react",
+    "nextjs",
+    "astro",
+    "vue",
+    "angular",
+    "ai-slop",
+    "design-linter",
+    "ui-linter",
+    "tailwind",
+    "glassmorphism",
+    "github-action",
+    "seo-audit",
+    "ai-search",
+    "answer-engine-optimization",
+    "skill"
+  ]
+}

@@ -1,0 +1,303 @@
+<!doctype html>
+<!--
+  Unmistakable Single-Page A4 Brand Book - Structural Skeleton (210mm x 297mm)
+  Replace every {{TOKEN}} with values extracted from the user's brand reference.
+  Omit any block lacking verified source material so the sheet fits cleanly on 1 A4 page.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>{{BRAND_NAME}} - Brand Book (A4)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family={{GOOGLE_FONTS_QUERY}}&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: {{PRIMARY_HEX}};
+      --secondary: {{SECONDARY_HEX}};
+      --tertiary: {{TERTIARY_HEX}};
+      --bg: {{BG_HEX}};
+      --surface: {{SURFACE_HEX}};
+      --border: {{BORDER_HEX}};
+      --text: {{TEXT_HEX}};
+      --muted: {{MUTED_HEX}};
+      --display-font: '{{DISPLAY_FONT_NAME}}', system-ui, sans-serif;
+      --body-font: '{{BODY_FONT_NAME}}', system-ui, sans-serif;
+      --mono-font: '{{MONO_FONT_NAME}}', ui-monospace, monospace;
+    }
+
+    @page { size: A4 portrait; margin: 0; }
+    html, body { margin: 0; padding: 0; background: var(--bg); }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .page {
+      width: 210mm;
+      height: 297mm;
+      padding: 16mm 15mm 13mm;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body-font);
+      display: flex;
+      flex-direction: column;
+      gap: 7.5mm;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 10mm;
+      padding-bottom: 4.5mm;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand { display: flex; align-items: center; gap: 3.5mm; }
+    .brand h1 {
+      margin: 0;
+      font-family: var(--display-font);
+      font-size: 21pt;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .brand .sub {
+      margin: 1.5mm 0 0;
+      font-size: 8.5pt;
+      color: var(--muted);
+    }
+    .brand-meta {
+      text-align: right;
+      font-family: var(--mono-font);
+      font-size: 7.5pt;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    .brand-meta .accent { color: var(--primary); font-weight: 600; }
+
+    .section-title {
+      margin: 0 0 2.5mm;
+      font-family: var(--display-font);
+      font-size: 10pt;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--text);
+    }
+
+    .colors { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5mm; }
+    .swatch { border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: var(--surface); }
+    .swatch .fill { height: 24mm; }
+    .swatch .meta { padding: 2.5mm 3mm; }
+    .swatch .tier { font-size: 8.5pt; font-weight: 700; display: block; }
+    .swatch .hex { font-family: var(--mono-font); font-size: 7.5pt; color: var(--muted); display: block; margin-top: 0.8mm; }
+    .swatch .use { font-size: 7.2pt; color: var(--muted); line-height: 1.35; display: block; margin-top: 1mm; }
+
+    .twocol { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 6mm; }
+    .panel { border: 1px solid var(--border); border-radius: 6px; padding: 5mm; background: var(--surface); }
+
+    .type-sample {
+      margin: 0;
+      font-family: var(--display-font);
+      font-size: 22pt;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.02;
+    }
+    .type-desc { margin: 3mm 0 0; font-size: 8.2pt; color: var(--muted); line-height: 1.48; }
+    .type-ladder {
+      margin-top: 3mm;
+      padding-top: 2.5mm;
+      border-top: 1px solid var(--border);
+      font-family: var(--mono-font);
+      font-size: 7.2pt;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .principles ul {
+      margin: 0;
+      padding: 0 0 0 4mm;
+      font-size: 8pt;
+      color: var(--muted);
+      line-height: 1.55;
+      display: grid;
+      gap: 1.8mm;
+    }
+    .principles li strong { color: var(--text); }
+    .principles li::marker { color: var(--primary); }
+
+    .surface-tokens { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4mm; }
+    .token-chip {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 3.5mm;
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5mm;
+    }
+    .token-dot { width: 100%; height: 6mm; border-radius: 3px; border: 1px solid var(--border); }
+    .token-name { font-size: 7.8pt; font-weight: 700; }
+    .token-val { font-family: var(--mono-font); font-size: 7pt; color: var(--muted); }
+
+    .wordmarks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5mm; }
+    .wm {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4.5mm;
+      background: var(--surface);
+      min-height: 26mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .wm-mark {
+      font-family: var(--display-font);
+      font-weight: 800;
+      font-size: 13pt;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 2.5mm;
+    }
+    .wm-note { font-family: var(--mono-font); font-size: 6.8pt; color: var(--muted); }
+
+    .foot {
+      margin-top: auto;
+      padding-top: 3.5mm;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--mono-font);
+      font-size: 7pt;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="head">
+      <div class="brand">
+        {{LOGO_SVG}}
+        <div>
+          <h1>{{BRAND_NAME}}</h1>
+          <p class="sub">{{TAGLINE}}</p>
+        </div>
+      </div>
+      <div class="brand-meta">
+        <div>Brand Sheet · v1.0</div>
+        <div class="accent">{{SOURCE_LABEL}}</div>
+      </div>
+    </header>
+
+    <section>
+      <h2 class="section-title">Color hierarchy</h2>
+      <div class="colors">
+        <div class="swatch">
+          <div class="fill" style="background: var(--primary);"></div>
+          <div class="meta">
+            <span class="tier" style="color: var(--primary);">Primary</span>
+            <span class="hex">{{PRIMARY_HEX}}</span>
+            <span class="use">{{PRIMARY_USAGE}}</span>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="fill" style="background: var(--secondary);"></div>
+          <div class="meta">
+            <span class="tier">Secondary</span>
+            <span class="hex">{{SECONDARY_HEX}}</span>
+            <span class="use">{{SECONDARY_USAGE}}</span>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="fill" style="background: var(--tertiary);"></div>
+          <div class="meta">
+            <span class="tier">Tertiary</span>
+            <span class="hex">{{TERTIARY_HEX}}</span>
+            <span class="use">{{TERTIARY_USAGE}}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="twocol">
+      <div>
+        <h2 class="section-title">Typography</h2>
+        <div class="panel">
+          <p class="type-sample">{{DISPLAY_SAMPLE_LINE_1}}<br />{{DISPLAY_SAMPLE_LINE_2}}</p>
+          <p class="type-desc">{{TYPOGRAPHY_DESCRIPTION}}</p>
+          <div class="type-ladder">
+            <span>Display: {{DISPLAY_FONT_NAME}}</span>
+            <span>Body: {{BODY_FONT_NAME}} (tabular-nums)</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h2 class="section-title">Principles</h2>
+        <div class="panel principles">
+          <ul>
+            <li><strong>{{PRINCIPLE_1_TITLE}}:</strong> {{PRINCIPLE_1_BODY}}</li>
+            <li><strong>{{PRINCIPLE_2_TITLE}}:</strong> {{PRINCIPLE_2_BODY}}</li>
+            <li><strong>{{PRINCIPLE_3_TITLE}}:</strong> {{PRINCIPLE_3_BODY}}</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Surface &amp; semantic tokens</h2>
+      <div class="surface-tokens">
+        <div class="token-chip">
+          <div class="token-dot" style="background: var(--bg);"></div>
+          <span class="token-name">--color-bg</span>
+          <span class="token-val">{{BG_HEX}}</span>
+        </div>
+        <div class="token-chip">
+          <div class="token-dot" style="background: var(--surface);"></div>
+          <span class="token-name">--color-surface</span>
+          <span class="token-val">{{SURFACE_HEX}}</span>
+        </div>
+        <div class="token-chip">
+          <div class="token-dot" style="background: var(--text);"></div>
+          <span class="token-name">--color-text</span>
+          <span class="token-val">{{TEXT_HEX}}</span>
+        </div>
+        <div class="token-chip">
+          <div class="token-dot" style="background: var(--border);"></div>
+          <span class="token-name">--color-border</span>
+          <span class="token-val">{{BORDER_HEX}}</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Wordmarks &amp; lockups</h2>
+      <div class="wordmarks">
+        <div class="wm">
+          <div class="wm-mark">{{LOGO_SVG_SMALL}} <span>{{BRAND_NAME}}</span></div>
+          <span class="wm-note">Primary mark + wordmark</span>
+        </div>
+        <div class="wm">
+          <div class="wm-mark"><span>{{LOCKUP_PART_1}}</span><span style="font-weight:400;color:var(--muted);">{{LOCKUP_PART_2}}</span></div>
+          <span class="wm-note">Split-weight lockup</span>
+        </div>
+        <div class="wm">
+          <div class="wm-mark"><span style="color:var(--primary);">{{LOCKUP_PART_1}}</span><span>{{LOCKUP_PART_2}}</span></div>
+          <span class="wm-note">Accent lockup</span>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <span>{{BRAND_NAME}} · Single-Page Brand Sheet</span>
+      <span>Full interactive reference: design/design-system.html</span>
+    </footer>
+  </div>
+</body>
+</html>
