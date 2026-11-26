@@ -2,7 +2,7 @@
 """Deterministic anti-slop, sloppy-UI, accessibility, Core Web Vitals, and SEO/GEO scanner.
 
 Scans HTML, JSX, TSX, Vue, Svelte, Astro, Angular templates, and CSS/SCSS files
-for 53 common AI-slop, craft, accessibility, performance, and search-readiness
+for 57 common AI-slop, micrographic, craft, accessibility, performance, and search-readiness
 defects. Uses Python 3.8+ standard library only - zero external dependencies or API keys.
 
 Exit codes:
@@ -21,7 +21,7 @@ import sys
 from pathlib import Path
 from typing import Callable, Dict, List, Optional, Sequence, Set, Tuple
 
-VERSION = "1.1.0"
+VERSION = "1.2.0"
 
 # ---------------------------------------------------------------------------
 # Named constants with explicit engineering rationale (no voodoo numbers).
@@ -105,6 +105,15 @@ SPACING_NUDGE_MAX_PX = 2.0
 # z-index at or above this value is escalation ("z-index: 9999"), not a layering scale (UNM-49).
 Z_INDEX_ESCALATION = 999
 
+# SVGs up to this box (px or viewBox units) are icons; larger ones are diagrams or illustrations (UNM-54, UNM-55).
+ICON_MAX_BOX = 48.0
+
+# One stroke weight per icon size plus at most one optical variant (e.g. 1.5 at 24px, 2 at 16px) (UNM-54).
+MAX_ICON_STROKES = 2
+
+# A disciplined icon scale has at most 3 sizes (sm, md, lg) (UNM-54).
+MAX_ICON_SIZES = 3
+
 # sRGB/HSL hue windows (degrees) for the purple-to-blue/cyan/pink gradient cliche (UNM-07).
 PURPLE_HUE = (236.0, 320.0)
 BLUE_CYAN_HUE = (170.0, 236.0)
@@ -124,6 +133,7 @@ STOCK_PURPLE_HEX = frozenset({
     "#818cf8", "#6366f1", "#4f46e5", "#4338ca",
     "#a78bfa", "#8b5cf6", "#7c3aed", "#6d28d9",
     "#c084fc", "#a855f7", "#9333ea", "#7e22ce",
+    "#6c63ff",  # unDraw stock-illustration default accent
 })
 
 EM_DASH_CHAR = chr(0x2014)
@@ -185,7 +195,7 @@ RULES: List[Dict[str, str]] = [
     {"id": "UNM-29", "sev": "P1", "cat": "A11y", "desc": "Form <input> missing associated <label>, aria-label, or aria-labelledby", "fix": "Wrap in <label> or connect <label for=\"id\">; placeholder text is not an accessible label."},
     {"id": "UNM-30", "sev": "P2", "cat": "Tokens", "desc": "Scattered hardcoded hex literals outside :root/@theme token definitions", "fix": "Move raw hex colors into semantic CSS custom properties (--color-*) and consume via var()."},
     {"id": "UNM-31", "sev": "P2", "cat": "RTL", "desc": "Physical left/right margin or padding on an RTL-enabled document", "fix": "Use logical CSS properties (margin-inline-start/end, padding-inline) for clean RTL mirroring."},
-    {"id": "UNM-32", "sev": "P2", "cat": "Icons", "desc": "Raw emoji glyph used inside button or navigation UI chrome", "fix": "Replace emoji chrome with crisp inline SVGs in one consistent stroke weight."},
+    {"id": "UNM-32", "sev": "P2", "cat": "Icons", "desc": "Raw emoji glyph used as an icon in buttons, navigation, headings, or list items", "fix": "Replace emoji with SVG icons from the one icon family named in DESIGN.md, at the --stroke-icon weight."},
     {"id": "UNM-33", "sev": "P1", "cat": "SEO", "desc": "Full HTML document missing lang attribute on <html>", "fix": "Set <html lang=\"en\"> (or the active BCP-47 locale) for screen readers and search engines."},
     {"id": "UNM-34", "sev": "P1", "cat": "SEO", "desc": "Full HTML document missing <main> landmark", "fix": "Wrap primary route content in a single <main id=\"main-content\"> landmark."},
     {"id": "UNM-35", "sev": "P1", "cat": "SEO", "desc": "Full HTML document has zero or multiple <h1> elements", "fix": "Provide exactly one primary <h1> naming the page entity and user outcome."},
@@ -207,6 +217,10 @@ RULES: List[Dict[str, str]] = [
     {"id": "UNM-51", "sev": "P1", "cat": "GEO", "desc": "Malformed JSON-LD block (invalid JSON or missing @context)", "fix": "Emit valid JSON with \"@context\": \"https://schema.org\" and check it in the Schema Markup Validator."},
     {"id": "UNM-52", "sev": "P2", "cat": "SEO", "desc": "Relative or non-HTTPS canonical, og:url, og:image, or twitter:image URL", "fix": "Use absolute https:// URLs; social scrapers and search engines do not resolve relative paths reliably."},
     {"id": "UNM-53", "sev": "P2", "cat": "SEO", "desc": "Dead placeholder link (href=\"#\" or href=\"javascript:...\")", "fix": "Link to a real crawlable route, or use <button type=\"button\"> when the control performs an action."},
+    {"id": "UNM-54", "sev": "P2", "cat": "Icons", "desc": "Icon system drift (more than 2 stroke weights or more than 3 sizes across icons in one file)", "fix": "Draw every icon at the --stroke-icon weight and size it from --icon-sm / --icon-md / --icon-lg."},
+    {"id": "UNM-55", "sev": "P2", "cat": "Icons", "desc": "Hardcoded color inside an icon SVG or icon component (not currentColor or a token)", "fix": "Use fill=\"none\" stroke=\"currentColor\" (or fill=\"currentColor\") so icons inherit text tokens and follow dark mode."},
+    {"id": "UNM-56", "sev": "P2", "cat": "Icons", "desc": "Mixed icon families in one file (e.g. lucide + react-icons, or react-icons/fa + react-icons/md)", "fix": "Name one icon family in DESIGN.md and replace or redraw the outliers on its grid and stroke."},
+    {"id": "UNM-57", "sev": "P2", "cat": "Slop", "desc": "Stock illustration pack (unDraw, Storyset, Humaaans, DrawKit, Open Peeps, ManyPixels)", "fix": "Build spot art from the DESIGN.md motif inventory with the icon stroke tokens, or show the real product."},
 ]
 
 RULE_MAP: Dict[str, Dict[str, str]] = {r["id"]: r for r in RULES}
@@ -248,7 +262,7 @@ BUTTON_BLOCK_RE = re.compile(r"<button\b(?P<attrs>[^>]*)>(?P<body>.*?)</button>"
 INPUT_TAG_RE = re.compile(r"<input\b(?P<attrs>[^>]*?)/?>", re.I | re.S)
 HEX_COLOR_RE = re.compile(r"#[0-9a-fA-F]{3,8}\b")
 EMOJI_IN_CHROME_RE = re.compile(
-    r"<(?:button|a|nav)\b[^>]*>[^<]*[\U0001F300-\U0001FAFF☀-➿]",
+    r"<(?:button|a|nav|li|h[1-6]|summary|label|th|dt)\b[^>]*>[^<]*[\U0001F300-\U0001FAFF☀-➿]",
     re.I,
 )
 VAGUE_LINK_RE = re.compile(
@@ -317,6 +331,42 @@ SPACING_DECL_RE = re.compile(
 PX_VALUE_RE = re.compile(r"(?<![\w.#-])(\d*\.?\d+)px\b")
 Z_INDEX_RE = re.compile(r"(?:z-index|zIndex)\s*:\s*[\"'`]?(\d+)", re.I)
 FUNC_CALL_RE = re.compile(r"\b[a-z-]+\([^()]*(?:\([^()]*\)[^()]*)*\)", re.I)
+
+# --- Micrographics: icons, spot art, and graphic coherence (UNM-54 to UNM-57) -------
+SVG_BLOCK_RE = re.compile(r"<svg\b(?P<attrs>[^>]*)>(?P<body>.*?)</svg>", re.I | re.S)
+SVG_VIEWBOX_RE = re.compile(r"viewBox\s*=\s*[\"'{]\s*[-\d.]+[\s,]+[-\d.]+[\s,]+([\d.]+)[\s,]+([\d.]+)", re.I)
+SIZE_ATTR_RE = re.compile(r"(?<![\w-])(?:width|size)\s*=\s*\{?\s*[\"']?(\d+(?:\.\d+)?)(?:px)?[\"']?\s*\}?", re.I)
+STROKE_WIDTH_RE = re.compile(r"(?:stroke-width|strokeWidth)\s*[=:]\s*\{?\s*[\"']?(\d*\.?\d+)", re.I)
+HARDCODED_PAINT_RE = re.compile(
+    r"(?:fill|stroke|stop-color|stopColor|color)\s*[=:]\s*\{?\s*[\"']?\s*(#[0-9a-fA-F]{3,8}\b|rgba?\([^)]*\)|hsla?\([^)]*\))",
+    re.I,
+)
+LOGO_HINT_RE = re.compile(r"logo|brand|wordmark|flag|favicon|avatar", re.I)
+IMPORT_STMT_RE = re.compile(
+    r"""import\s+(?:type\s+)?(?P<clause>[\w*\s{},$]+?)\s+from\s+["'](?P<spec>[^"']+)["']|(?:import|require)\s*\(?\s*["'](?P<bare>[^"']+)["']"""
+)
+JSX_TAG_RE = re.compile(r"<(?P<name>[A-Z][A-Za-z0-9_.]*)\b(?P<attrs>[^<>]*?)/?>")
+ICON_FAMILY_PATTERNS: List[Tuple[str, "re.Pattern[str]"]] = [
+    ("lucide", re.compile(r"^(?:lucide(?:-react|-vue-next|-vue|-svelte|-angular|-preact|-solid|-static)?|@lucide/[\w-]+)(?:/|$)")),
+    ("heroicons", re.compile(r"^@heroicons/")),
+    ("tabler", re.compile(r"^@tabler/icons")),
+    ("phosphor", re.compile(r"^(?:@phosphor-icons/|phosphor-react|phosphor-vue|phosphor-svelte)")),
+    ("radix-icons", re.compile(r"^@radix-ui/react-icons")),
+    ("feather", re.compile(r"^(?:react-feather|feather-icons|vue-feather)")),
+    ("font-awesome", re.compile(r"^@fortawesome/")),
+    ("material", re.compile(r"^(?:@mui/icons-material|@material-design-icons/|@material-symbols/|material-symbols|@mdi/)")),
+    ("iconify", re.compile(r"^(?:@iconify/|@iconify-icon/|~icons/|unplugin-icons)")),
+    ("remix", re.compile(r"^(?:@remixicon/|remixicon)")),
+    ("bootstrap-icons", re.compile(r"^(?:bootstrap-icons|react-bootstrap-icons)")),
+    ("ionicons", re.compile(r"^(?:ionicons|@ionic/[\w-]*icons|react-ionicons)")),
+    ("octicons", re.compile(r"^@primer/octicons")),
+    ("hugeicons", re.compile(r"^(?:@hugeicons/|hugeicons-react)")),
+    ("ant-icons", re.compile(r"^@ant-design/icons")),
+]
+STOCK_ILLUSTRATION_RE = re.compile(
+    r"[\"'(][^\"'()\s]*(?:undraw|storyset|humaaans|drawkit|open-?peeps|manypixels|blush\.design|illustrations\.co|ouch\.pics|icons8\.com/illustrations)[^\"'()\s]*[\"')]",
+    re.I,
+)
 
 # --- Copy, structured data, and links (UNM-50 to UNM-53) -------------------------
 SOCIAL_PROOF_RE = re.compile(
@@ -717,6 +767,9 @@ def scan_style_values(text: str, ln: Callable[[int], int], add_finding: AddFindi
         if rule:
             add_finding(rule, ln(m.start()))
 
+    for m in STOCK_ILLUSTRATION_RE.finditer(text):
+        add_finding("UNM-57", ln(m.start()), extra=m.group(0).strip("\"'()")[:60])
+
     for m in ORB_FILTER_RE.finditer(text):
         px = float(m.group(1)) * (REM_BASE_PX if m.group(2).lower() == "rem" else 1.0)
         if px >= ORB_MIN_BLUR_PX:
@@ -839,6 +892,111 @@ def scan_file_aggregates(text: str, is_markup: bool, add_finding: AddFinding) ->
 
 
 # ---------------------------------------------------------------------------
+# Micrographics: one icon family, one stroke, one size scale, token colors
+# ---------------------------------------------------------------------------
+
+def icon_family(spec: str) -> Optional[str]:
+    """Map an import specifier or package name to an icon family, or None."""
+    sub = re.match(r"^react-icons/(\w+)", spec)
+    if sub:
+        return f"react-icons/{sub.group(1)}"
+    if spec == "react-icons":
+        return "react-icons"
+    for family, rx in ICON_FAMILY_PATTERNS:
+        if rx.match(spec):
+            return family
+    return None
+
+
+def icon_imports(text: str) -> List[Tuple[int, str, Set[str]]]:
+    """Return (offset, family, local names) for every icon-library import in a file."""
+    out: List[Tuple[int, str, Set[str]]] = []
+    for m in IMPORT_STMT_RE.finditer(text):
+        family = icon_family(m.group("spec") or m.group("bare") or "")
+        if not family:
+            continue
+        names: Set[str] = set()
+        clause = m.group("clause") or ""
+        braces = re.search(r"\{([^}]*)\}", clause)
+        if braces:
+            for part in braces.group(1).split(","):
+                if part.strip():
+                    names.add(part.split(" as ")[-1].strip())
+        lead = re.match(r"\s*(?:\*\s+as\s+)?([A-Za-z_$][\w$]*)", clause)
+        if lead:
+            names.add(lead.group(1))
+        out.append((m.start(), family, names))
+    return out
+
+
+def _num_key(value: str) -> str:
+    return "%g" % float(value)
+
+
+def scan_micrographics(text: str, add_finding: AddFinding) -> None:
+    imports = icon_imports(text)
+
+    # UNM-56 mixed icon families (react-icons sub-packages are separate design sets)
+    families: Dict[str, int] = {}
+    for off, family, _ in imports:
+        families.setdefault(family, off)
+    if any(f.startswith("react-icons/") for f in families):
+        families.pop("react-icons", None)
+    if len(families) > 1:
+        ordered = sorted(families.items(), key=lambda kv: kv[1])
+        add_finding("UNM-56", line_of(text, ordered[1][1]), extra=f"Families: {', '.join(f for f, _ in ordered)}.")
+
+    strokes: Dict[str, int] = {}
+    sizes: Dict[str, int] = {}
+
+    # Inline SVG icons (diagrams and illustrations above ICON_MAX_BOX are exempt)
+    for m in SVG_BLOCK_RE.finditer(text):
+        attrs, body = m.group("attrs"), m.group("body")
+        vb = SVG_VIEWBOX_RE.search(attrs)
+        size_m = SIZE_ATTR_RE.search(attrs)
+        box = max(float(vb.group(1)), float(vb.group(2))) if vb else None
+        width = float(size_m.group(1)) if size_m else None
+        is_icon = (
+            (box is not None and box <= ICON_MAX_BOX)
+            or (width is not None and width <= ICON_MAX_BOX)
+            or bool(re.search(r"class(?:Name)?\s*=\s*[\"'][^\"']*\bicon\b", attrs))
+        )
+        if not is_icon:
+            continue
+        if width is not None:
+            sizes.setdefault(_num_key(size_m.group(1)), m.start())
+        for sw in STROKE_WIDTH_RE.finditer(attrs + " " + body):
+            strokes.setdefault(_num_key(sw.group(1)), m.start())
+        context = text[max(0, m.start() - 120):m.start()] + attrs + body[:300]
+        if HARDCODED_PAINT_RE.search(attrs + " " + body) and not LOGO_HINT_RE.search(context):
+            add_finding("UNM-55", line_of(text, m.start()))
+
+    # Icon components (imported from an icon family, or named *Icon)
+    icon_names: Set[str] = set()
+    for _, _, names in imports:
+        icon_names |= names
+    for m in JSX_TAG_RE.finditer(text):
+        name, attrs = m.group("name"), m.group("attrs")
+        if not (name in icon_names or name.split(".")[0] in icon_names or name.endswith("Icon")):
+            continue
+        for sw in STROKE_WIDTH_RE.finditer(attrs):
+            strokes.setdefault(_num_key(sw.group(1)), m.start())
+        size_m = SIZE_ATTR_RE.search(attrs)
+        if size_m:
+            sizes.setdefault(_num_key(size_m.group(1)), m.start())
+        if HARDCODED_PAINT_RE.search(attrs):
+            add_finding("UNM-55", line_of(text, m.start()), extra=f"<{name}> has a hardcoded color.")
+
+    # UNM-54 icon drift
+    if len(strokes) > MAX_ICON_STROKES:
+        add_finding("UNM-54", line_of(text, min(strokes.values())),
+                    extra=f"{len(strokes)} icon stroke weights: {', '.join(sorted(strokes, key=float))}.")
+    if len(sizes) > MAX_ICON_SIZES:
+        add_finding("UNM-54", line_of(text, min(sizes.values())),
+                    extra=f"{len(sizes)} icon sizes: {', '.join(sorted(sizes, key=float))}.")
+
+
+# ---------------------------------------------------------------------------
 # Stylesheet and markup scanners
 # ---------------------------------------------------------------------------
 
@@ -957,6 +1115,7 @@ def scan_markup(text: str, add_finding: AddFinding) -> None:
     no_style = re.sub(r"<style\b[^>]*>.*?</style>", keep_newlines, clean, flags=re.I | re.S)
     scan_style_values(no_style, lambda off: line_of(no_style, off), add_finding)
     scan_tailwind(no_style, add_finding)
+    scan_micrographics(no_style, add_finding)
     for m in GLASS_DECL_RE.finditer(no_style):
         add_finding("UNM-45", line_of(no_style, m.start()))
     for m in INFINITE_ANIM_RE.finditer(no_style):

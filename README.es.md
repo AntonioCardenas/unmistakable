@@ -3,12 +3,12 @@
 # Unmistakable
 
 **Deja de publicar AI slop.**<br>
-Una skill de diseño para agentes de código que prohíbe los degradados morados, los brillos neón, las tarjetas de vidrio y los heros 50/50 que todo modelo genera por defecto, y lo demuestra con un escáner offline de 53 reglas.
+Una skill de diseño para agentes de código que prohíbe los degradados morados, los brillos neón, las tarjetas de vidrio y los heros 50/50 que todo modelo genera por defecto, mantiene cada icono y gráfico en un mismo lenguaje visual, y lo demuestra con un escáner offline de 57 reglas.
 
 [![CI](https://github.com/AntonioCardenas/unmistakable/actions/workflows/ci.yml/badge.svg)](https://github.com/AntonioCardenas/unmistakable/actions/workflows/ci.yml)
 [![Licencia: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![53 reglas](https://img.shields.io/badge/esc%C3%A1ner-53%20reglas-ff4f1f)](references/commands-and-audit-rubric.md)
-[![Python 3.8+ stdlib](https://img.shields.io/badge/runtime-Python%203.8%2B%20stdlib-0e1116)](scripts/detect_slop.py)
+[![57 reglas](https://img.shields.io/badge/esc%C3%A1ner-57%20reglas-ab343b)](references/commands-and-audit-rubric.md)
+[![Python 3.8+ stdlib](https://img.shields.io/badge/runtime-Python%203.8%2B%20stdlib-151423)](scripts/detect_slop.py)
 
 Funciona con **Claude Code**, **Cursor**, **Codex CLI**, **Gemini CLI**, **GitHub Copilot**, **Windsurf**, **OpenCode** y **Google Antigravity**.
 
@@ -16,9 +16,9 @@ Funciona con **Claude Code**, **Cursor**, **Codex CLI**, **Gemini CLI**, **GitHu
 
 </div>
 
-![Dos versiones de la misma página de producto. Izquierda: página azul marino con texto en degradado morado, botón con brillo, tarjeta de vidrio y cifras inventadas, con 55 hallazgos. Derecha: página clara tipo plano técnico, titular condensado, una sola acción roja y especificaciones reales, con 0 hallazgos.](assets/before-after.png)
+![Lámina de comparación dibujada a mano sobre papel milimetrado. Panel izquierdo, Default slop, 55 hallazgos: hero 50/50 con píldora, dos botones píldora y tres tarjetas con icono, tachados en rojo. Panel derecho, Unmistakable, 0 hallazgos: jerarquía tipográfica, corte técnico con cotas y tabla de especificaciones.](assets/before-after.png)
 
-<sub>Mismo producto, mismos datos. Ambas páginas son fixtures hechos a mano en <a href="evals/fixtures/">evals/fixtures/</a>: la izquierda reproduce la salida típica de un agente sin dirección, la derecha sigue esta skill.</sub>
+<sub>Ilustración de las dos páginas de <a href="evals/fixtures/">evals/fixtures/</a>: mismo producto y mismos datos, construidos como lo hace un agente por defecto y con esta skill. Los conteos son reales; ejecuta el escáner en ambas.</sub>
 
 ## Por qué existe
 
@@ -27,9 +27,10 @@ Pide una landing page a un agente sin dirección y obtendrás el promedio estad�
 Unmistakable le da al agente reglas de criterio que puede seguir y un escáner con el que no puede discutir:
 
 - **Dirección antes que píxeles:** cada ruta tiene un Modo de Visitante (`Persuade`, `Operate`, `Read`, `Experience`) y un Contrato de Dirección de seis bloques.
+- **Un solo lenguaje gráfico:** iconos, marcadores, divisores, gráficos pequeños, ilustraciones y tarjetas sociales salen de un inventario de motivos en `DESIGN.md`, con un solo trazo, una sola familia de iconos y colores del tema. Nada que el sistema de diseño no pueda nombrar.
 - **Profundidad plana y honesta:** bordes de `1px` y escalones de superficie en lugar de brillos, degradados, vidrio y sombras apiladas. Un único token de sombra neutra para lo que realmente flota.
 - **Cero datos inventados:** nada de cifras de usuarios, valoraciones, testimonios o logos fabricados.
-- **Pruebas, no adjetivos:** 53 reglas deterministas, 17 compuertas de lanzamiento, salida SARIF y una GitHub Action. Solo librería estándar de Python.
+- **Pruebas, no adjetivos:** 57 reglas deterministas, 18 compuertas de lanzamiento, salida SARIF y una GitHub Action. Solo librería estándar de Python.
 - **SEO y GEO integrados:** JSON-LD válido, párrafos que los motores de respuesta citan, un robots.txt que mantiene la búsqueda con IA y excluye el entrenamiento, y una guía honesta sobre `llms.txt`.
 
 ## Instalación
@@ -70,6 +71,10 @@ El catálogo completo, con correcciones y excepciones, está en [references/anti
 | Píldora "eyebrow" sobre el titular | Empezar con el encabezado | `UNM-01` |
 | "Con la confianza de 10,000+", "4.9★" | Cifras con fuente, o nada | `UNM-50` |
 | Seis radios distintos y `z-index: 9999` | Tres tokens de radio y una escala de capas | `UNM-48`, `UNM-49` |
+| Emojis como iconos y viñetas | Una familia de iconos SVG definida en `DESIGN.md` | `UNM-32` |
+| `lucide` junto a `react-icons` y Font Awesome | Una sola familia de iconos | `UNM-56` |
+| Iconos con varios grosores y tamaños, colores fijos | `--stroke-icon`, tres tamaños, `currentColor` | `UNM-54`, `UNM-55` |
+| Ilustraciones de stock (unDraw, Storyset) | Ilustraciones hechas con tu propio inventario de motivos | `UNM-57` |
 
 ¿Tu marca es realmente morada? Mantenla. Cada regla se puede eximir por línea o por archivo con un motivo escrito.
 
@@ -79,7 +84,7 @@ El catálogo completo, con correcciones y excepciones, está en [references/anti
 python3 scripts/detect_slop.py src/                      # informe legible con correcciones
 python3 scripts/detect_slop.py src/ --fail-on P1         # falla solo con hallazgos P0/P1
 python3 scripts/detect_slop.py src/ --sarif > out.sarif  # GitHub code scanning
-python3 scripts/check_foundations.py .                   # 17 compuertas de lanzamiento
+python3 scripts/check_foundations.py .                   # 18 compuertas de lanzamiento
 ```
 
 ```yaml
@@ -94,14 +99,14 @@ python3 scripts/check_foundations.py .                   # 17 compuertas de lanz
 | Categoría | Comandos |
 |---|---|
 | **Sistema y setup** | `init` · `system [ref]` (genera `DESIGN.md`, `tokens.css`, `design-system.html` y `brand-book-a4.pdf`) · `document` · `extract` |
-| **Construcción y dirección** | `shape` · `build` · `deslop` · `typeset` · `layout` · `colorize` · `animate` · `bolder` · `quieter` · `distill` |
+| **Construcción y dirección** | `shape` · `build` · `deslop` · `graphics` · `typeset` · `layout` · `colorize` · `animate` · `bolder` · `quieter` · `distill` |
 | **Evaluación** | `audit` (puntuación `0-24` en 6 dimensiones con severidad `P0-P3`) · `critique` |
-| **Producción, SEO/GEO y entrega** | `harden` · `optimize` · `seo` · `foundations` (17 compuertas) · `polish` |
+| **Producción, SEO/GEO y entrega** | `harden` · `optimize` · `seo` · `foundations` (18 compuertas) · `polish` |
 
 ## Preguntas frecuentes
 
 ### ¿Qué es Unmistakable?
-Unmistakable es una skill open-source (MIT) que enseña a los agentes de código a construir interfaces web con una dirección visual propia en lugar del aspecto genérico de IA. Incluye un escáner offline de 53 reglas, 17 compuertas de lanzamiento, generadores de sistemas de diseño y brand books A4, y patrones de SEO técnico y GEO.
+Unmistakable es una skill open-source (MIT) que enseña a los agentes de código a construir interfaces web con una dirección visual propia en lugar del aspecto genérico de IA. Incluye un escáner offline de 57 reglas, 18 compuertas de lanzamiento, generadores de sistemas de diseño y brand books A4, y patrones de SEO técnico y GEO.
 
 ### ¿Funciona con React, Next.js, Astro, Vue, Svelte, Angular y Tailwind?
 Sí. Los tokens son CSS Custom Properties estándar y el escáner lee `.tsx`, `.jsx`, `.vue`, `.svelte`, `.astro`, `.html`, `.css` y `.scss`, incluidas las clases de Tailwind.

@@ -3,13 +3,13 @@
 # Unmistakable
 
 **Stop shipping AI slop.**<br>
-A design skill for coding agents that bans the purple gradients, neon glows, glass cards, and 50/50 heroes every model defaults to, then proves it with a 53-rule offline scanner.
+A design skill for coding agents that bans the purple gradients, neon glows, glass cards, and 50/50 heroes every model defaults to, keeps every icon and graphic in one visual language, then proves it with a 57-rule offline scanner.
 
 [![CI](https://github.com/AntonioCardenas/unmistakable/actions/workflows/ci.yml/badge.svg)](https://github.com/AntonioCardenas/unmistakable/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![53 rules](https://img.shields.io/badge/scanner-53%20rules-ff4f1f)](references/commands-and-audit-rubric.md#deterministic-53-rule-catalog-unm-01-to-unm-53)
-[![Python 3.8+ stdlib](https://img.shields.io/badge/runtime-Python%203.8%2B%20stdlib-0e1116)](scripts/detect_slop.py)
-[![SARIF 2.1.0](https://img.shields.io/badge/CI-SARIF%202.1.0-0e1116)](#github-action)
+[![57 rules](https://img.shields.io/badge/scanner-57%20rules-ab343b)](references/commands-and-audit-rubric.md#deterministic-57-rule-catalog-unm-01-to-unm-57)
+[![Python 3.8+ stdlib](https://img.shields.io/badge/runtime-Python%203.8%2B%20stdlib-151423)](scripts/detect_slop.py)
+[![SARIF 2.1.0](https://img.shields.io/badge/CI-SARIF%202.1.0-151423)](#github-action)
 [![GitHub stars](https://img.shields.io/github/stars/AntonioCardenas/unmistakable?style=flat)](https://github.com/AntonioCardenas/unmistakable/stargazers)
 
 Works with **Claude Code**, **Cursor**, **Codex CLI**, **Gemini CLI**, **GitHub Copilot**, **Windsurf**, **OpenCode**, and **Google Antigravity**.
@@ -20,9 +20,9 @@ Works with **Claude Code**, **Cursor**, **Codex CLI**, **Gemini CLI**, **GitHub 
 
 </div>
 
-![Two versions of the same product page. Left: a dark navy page with purple gradient text, a glowing purple button, a glass card, and a fake stat strip, flagged with 55 findings. Right: a light technical-drawing page with a condensed headline, one red action, and real specifications, with 0 findings.](assets/before-after.png)
+![Hand-drafted comparison sheet on graph paper. Left panel, labeled Default slop, 55 findings: a 50/50 hero with a pill badge, two pill buttons, and three icon cards, struck through in red. Right panel, labeled Unmistakable, 0 findings: bold typographic hierarchy, a technical cross-section with dimension arrows, and a spec table.](assets/before-after.png)
 
-<sub>Same product, same facts. Both pages are hand-built fixtures in <a href="evals/fixtures/">evals/fixtures/</a>: the left reproduces typical default agent output, the right follows this skill. Run the scanner on both yourself.</sub>
+<sub>Illustration of the two fixture pages in <a href="evals/fixtures/">evals/fixtures/</a>: the same product and facts, built once the way agents default and once with this skill. The finding counts are real; run the scanner on both yourself.</sub>
 
 ## Why this exists
 
@@ -31,9 +31,10 @@ Ask a coding agent for a landing page with no direction and you get the statisti
 Unmistakable gives the agent taste rules it can follow and a scanner it cannot argue with:
 
 - **Direction before pixels.** Every route gets a Visitor Mode (`Persuade`, `Operate`, `Read`, `Experience`) and a six-line Direction Contract, so dashboards open into work and landing pages commit to one idea.
+- **One graphic language.** Icons, markers, dividers, data glyphs, spot art, and social cards all come from a named motif inventory in `DESIGN.md`, drawn with one stroke, one icon family, and theme colors. Nothing ships that the design system cannot name.
 - **A flat, honest depth model.** Borders and surface steps instead of glows, gradients, glass, and stacked shadows. One neutral shadow token for things that actually float.
 - **No invented facts.** No fabricated user counts, ratings, testimonials, or logos. Brand tokens come from your real site, screenshot, or code.
-- **Proof, not adjectives.** 53 deterministic checks, a 17-gate ship checklist, SARIF output for GitHub code scanning, and a reusable GitHub Action. Python standard library only: no API keys, no network, no telemetry.
+- **Proof, not adjectives.** 57 deterministic checks, an 18-gate ship checklist, SARIF output for GitHub code scanning, and a reusable GitHub Action. Python standard library only: no API keys, no network, no telemetry.
 - **Search and AI answer visibility built in.** Valid JSON-LD, passage-level writing that answer engines quote, a robots.txt that keeps AI search while opting out of training, and honest guidance on `llms.txt`.
 
 ## Install
@@ -90,6 +91,10 @@ The full catalog with fixes and exceptions lives in [references/anti-patterns.md
 | "Elevate", "seamless", "supercharge", "reimagined" | A concrete capability with a number | `UNM-09` |
 | Six corner radii and `z-index: 9999` on one screen | Three radius tokens and a named layer scale | `UNM-48`, `UNM-49` |
 | `href="#"` everywhere | Real routes, or `<button>` | `UNM-53` |
+| Emoji as icons and bullets (✨ ⚡ ✅) | One SVG icon family from `DESIGN.md` | `UNM-32` |
+| `lucide` next to `react-icons` next to Font Awesome | One icon family per product | `UNM-56` |
+| Icons in four stroke weights and five sizes, hex colors baked in | `--stroke-icon`, three sizes, `currentColor` | `UNM-54`, `UNM-55` |
+| unDraw, Storyset, and other stock illustration packs | Spot art built from your own motif inventory | `UNM-57` |
 | `50/50` split hero with a stat strip | A Visitor-Mode opening | `critique` |
 
 Brand genuinely violet? Keep it. Every rule can be waived per line or per file with a written reason, and `--report-unused-ignores` catches stale waivers.
@@ -124,11 +129,11 @@ python3 scripts/detect_slop.py src/                      # human-readable report
 python3 scripts/detect_slop.py src/ --fail-on P1         # exit 2 only for P0/P1 findings
 python3 scripts/detect_slop.py src/ --json               # machine-readable for agents
 python3 scripts/detect_slop.py src/ --sarif > out.sarif  # GitHub code scanning
-python3 scripts/detect_slop.py --list-rules              # all 53 rules
-python3 scripts/check_foundations.py .                   # 17 ship-readiness gates
+python3 scripts/detect_slop.py --list-rules              # all 57 rules
+python3 scripts/check_foundations.py .                   # 18 ship-readiness gates
 ```
 
-Rules span six families: anti-slop visuals (`UNM-01` to `UNM-08`, `UNM-41` to `UNM-47`), copy and invented proof, typography, sloppy craft, accessibility and Core Web Vitals, and technical SEO and GEO. Severity runs from `P0` (blocking) to `P3` (polish). The full catalog is in [references/commands-and-audit-rubric.md](references/commands-and-audit-rubric.md#deterministic-53-rule-catalog-unm-01-to-unm-53).
+Rules span seven families: anti-slop visuals (`UNM-01` to `UNM-08`, `UNM-41` to `UNM-47`), micrographic coherence (`UNM-32`, `UNM-54` to `UNM-57`), copy and invented proof, typography, sloppy craft, accessibility and Core Web Vitals, and technical SEO and GEO. Severity runs from `P0` (blocking) to `P3` (polish). The full catalog is in [references/commands-and-audit-rubric.md](references/commands-and-audit-rubric.md#deterministic-57-rule-catalog-unm-01-to-unm-57).
 
 ## GitHub Action
 
@@ -165,13 +170,17 @@ Invoke `/unmistakable <command> [target]` (`$unmistakable` in Codex). With no co
 | Group | Commands |
 |---|---|
 | **System and setup** | `init` writes `PRODUCT.md` · `system [ref]` extracts a brand from a URL, screenshot, or code into `DESIGN.md`, `design/tokens.css`, `design/design-system.html`, and a 1-page `design/brand-book-a4.pdf` · `document` reverse-engineers existing CSS · `extract` pulls repeated values into tokens |
-| **Build and steer** | `shape` writes the Direction Contract · `build` ships a page or workspace end to end · `deslop` strips AI tells · `typeset` · `layout` · `colorize` · `animate` · `bolder` · `quieter` · `distill` |
+| **Build and steer** | `shape` writes the Direction Contract · `build` ships a page or workspace end to end · `deslop` strips AI tells · `graphics` unifies icons and micrographics · `typeset` · `layout` · `colorize` · `animate` · `bolder` · `quieter` · `distill` |
 | **Evaluate** | `audit` scores six dimensions (`0-24`) with `P0-P3` findings and `file:line` evidence, without editing · `critique` runs the memory, competitor-swap, squint, and tell-count tests |
-| **Harden and ship** | `harden` (overflow, RTL, `Intl`, error states, gestures) · `optimize` (`LCP`, `INP`, `CLS`) · `seo` (head contract, JSON-LD, GEO passages, crawler access) · `foundations` (17 gates) · `polish` (final zero-defect pass) |
+| **Harden and ship** | `harden` (overflow, RTL, `Intl`, error states, gestures) · `optimize` (`LCP`, `INP`, `CLS`) · `seo` (head contract, JSON-LD, GEO passages, crawler access) · `foundations` (18 gates) · `polish` (final zero-defect pass) |
 
 ## Living design systems and A4 brand books
 
-`/unmistakable system https://your-site.com` extracts real colors, fonts, the exact SVG logo, and documented principles. It never invents a tagline or redraws a logo. The output is a token file any framework can import, a scrollable `design-system.html` with live specimens and states, and a print-exact single-page A4 brand book rendered by headless Chrome, Chromium, Brave, or Edge.
+`/unmistakable system https://your-site.com` extracts real colors, fonts, the exact SVG logo, and documented principles. It never invents a tagline or redraws a logo. It also records the graphic language: icon family, stroke, sizes, and the motif inventory every future icon, divider, and illustration must come from. The output is a token file any framework can import, a scrollable `design-system.html` with live specimens and states, and a print-exact single-page A4 brand book rendered by headless Chrome, Chromium, Brave, or Edge.
+
+![Hand-drafted specification sheet on graph paper: the Unmistakable wordmark over a datum rule, a web viewport wireframe with dimension arrows and three hatched token swatches, a mobile frame, and a node tree, labeled Grid, Tokens, and GEO.](assets/unmistakable-showcase.png)
+
+<sub>This repository follows its own system: every asset uses the drafting-sheet language in <a href="DESIGN.md">DESIGN.md</a>.</sub>
 
 ## SEO and GEO
 
@@ -191,7 +200,8 @@ Details: [references/seo-and-geo-patterns.md](references/seo-and-geo-patterns.md
 | | Prompt-only design rules | Unmistakable |
 |---|---|---|
 | Taste guidance | Adjectives ("make it modern") | Visitor Modes, a Direction Contract, a depth model, and a 60-second slop review |
-| Enforcement | None | 53 deterministic rules, `--fail-on`, SARIF, a GitHub Action |
+| Enforcement | None | 57 deterministic rules, `--fail-on`, SARIF, a GitHub Action |
+| Graphic coherence | None | Motif inventory, one icon family, token strokes and sizes, `icon-system` gate |
 | Tailwind awareness | Rarely | Gradient stops, colored shadows, `backdrop-blur`, `blur-3xl`, radius and `z-[]` drift |
 | Design-system output | None | `DESIGN.md`, `tokens.css`, `design-system.html`, A4 PDF |
 | SEO and GEO | Meta tags at best | Head contract, JSON-LD validation, passage writing, crawler gate |
@@ -202,7 +212,7 @@ Unmistakable complements accessibility and performance tools like axe and Lighth
 ## FAQ
 
 ### What is Unmistakable?
-Unmistakable is an open-source agent skill that teaches coding agents to build web interfaces with a committed visual direction instead of the default AI look. It ships a 53-rule offline scanner, a 17-gate ship checklist, design-system and brand-book generators, and technical SEO plus GEO patterns. It is MIT licensed.
+Unmistakable is an open-source agent skill that teaches coding agents to build web interfaces with a committed visual direction instead of the default AI look. It ships a 57-rule offline scanner, an 18-gate ship checklist, design-system and brand-book generators, and technical SEO plus GEO patterns. It is MIT licensed.
 
 ### Which coding agents does it work with?
 Any agent that loads `SKILL.md` skills: Claude Code, Cursor, Codex CLI, Gemini CLI, GitHub Copilot, Windsurf, OpenCode, and Google Antigravity. The scanner and checklist are plain Python, so they also run in any CI system or pre-commit hook.
@@ -232,19 +242,21 @@ npm test   # unit tests, fixture checks, and skill-structure validation
 ```text
 unmistakable/
 ├── SKILL.md                          # Router, standing rules, workflows
+├── DESIGN.md                         # This repo's own drafting-sheet design system
 ├── action.yml                        # Reusable GitHub Action (SARIF + severity gate)
 ├── references/
 │   ├── anti-patterns.md              # The AI-slop catalog and 60-second review
+│   ├── micrographics.md              # One graphic language: icons, motifs, spot art
 │   ├── agnostic-design-patterns.md   # Visitor modes, tokens, type, motion, craft floor
 │   ├── brand-and-design-system.md    # Evidence-first extraction, HTML and A4 outputs
 │   ├── production-hardening.md       # Overflow, RTL, Intl, gestures, WCAG 2.2, CWV
 │   ├── seo-and-geo-patterns.md       # Head contract, JSON-LD, GEO, AI crawlers, llms.txt
-│   └── commands-and-audit-rubric.md  # 19 command playbooks, audit rubric, 53-rule catalog
+│   └── commands-and-audit-rubric.md  # 20 command playbooks, audit rubric, 57-rule catalog
 ├── scripts/
-│   ├── detect_slop.py                # 53-rule scanner (text, JSON, SARIF)
-│   ├── check_foundations.py          # 17 ship-readiness gates
+│   ├── detect_slop.py                # 57-rule scanner (text, JSON, SARIF)
+│   ├── check_foundations.py          # 18 ship-readiness gates
 │   └── render_brand_book.py          # Headless-browser A4 PDF renderer
-├── assets/                           # Templates, before/after image, social preview
+├── assets/                           # Templates and drafting-sheet images (with prompt sidecars)
 ├── evals/                            # Tests, before/after fixtures, trigger evals
 ├── llms.txt                          # Index for AI agents
 └── llms-full.txt                     # Single-fetch reference for AI agents

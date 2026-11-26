@@ -183,8 +183,8 @@ class UnmistakableSkillTests(unittest.TestCase):
             sarif = detect_slop.to_sarif(res)
             self.assertEqual(sarif["version"], "2.1.0")
             self.assertEqual(len(sarif["runs"][0]["tool"]["driver"]["rules"]), len(detect_slop.RULES))
-            self.assertEqual(len(detect_slop.RULES), 53)
-            self.assertEqual([r["id"] for r in detect_slop.RULES], [f"UNM-{i:02d}" for i in range(1, 54)])
+            self.assertEqual(len(detect_slop.RULES), 57)
+            self.assertEqual([r["id"] for r in detect_slop.RULES], [f"UNM-{i:02d}" for i in range(1, 58)])
             self.assertTrue(sarif["runs"][0]["invocations"][0]["executionSuccessful"])
             self.assertEqual(sarif["runs"][0]["results"], [])
 
@@ -287,6 +287,67 @@ class UnmistakableSkillTests(unittest.TestCase):
                 self.assertEqual(detect_slop.main([str(p3_only)]), 2)
                 self.assertEqual(detect_slop.main([str(p3_only), "--fail-on", "P1"]), 0)
                 self.assertEqual(detect_slop.main([str(FIXTURES / "slop-landing.html"), "--fail-on", "P0"]), 2)
+
+    def test_micrographics_rules(self) -> None:
+        drift = (
+            'import { Check, X } from "lucide-react";\n'
+            'import { FaRocket } from "react-icons/fa";\n'
+            'import { MdStar } from "react-icons/md";\n'
+            'export function Features() {\n'
+            '  return (\n'
+            '    <ul>\n'
+            '      <li>✅ Fast setup</li>\n'
+            '      <li><Check size={12} strokeWidth={1} /> Typed</li>\n'
+            '      <li><X size={16} strokeWidth={1.5} /> No lock-in</li>\n'
+            '      <li><FaRocket size={20} color="#ff5500" /> Launch</li>\n'
+            '      <li><MdStar size={28} /> Rated</li>\n'
+            '      <li><svg viewBox="0 0 24 24" width="24" fill="none" stroke="#e11d48" stroke-width="2.5"><path d="M4 12h16"/></svg></li>\n'
+            '      <li><img src="/img/undraw_team_spirit.svg" alt="" width="320" height="240" /></li>\n'
+            '    </ul>\n'
+            '  );\n'
+            '}\n'
+        )
+        flagged = self._scan_text("Features.tsx", drift)
+        for rule in ("UNM-32", "UNM-54", "UNM-55", "UNM-56", "UNM-57"):
+            self.assertIn(rule, flagged)
+        stroke_and_size = [f for f in self._findings if f["rule"] == "UNM-54"]
+        self.assertTrue(any("stroke" in f["message"] for f in stroke_and_size))
+        self.assertTrue(any("sizes" in f["message"] for f in stroke_and_size))
+
+        coherent = (
+            'import { Check, ChevronRight } from "lucide-react";\n'
+            'import { StarIcon as StarOutline } from "@heroicons/react/24/outline";\n'
+            'import { StarIcon as StarSolid } from "@heroicons/react/24/solid";\n'
+            'export function Row({ active }) {\n'
+            '  return (\n'
+            '    <div>\n'
+            '      <svg aria-label="Acme logo" viewBox="0 0 32 32" width="32"><path fill="#0b5fff" d="M0 0h32v32H0z"/></svg>\n'
+            '      <Check size={16} strokeWidth={1.5} aria-hidden="true" />\n'
+            '      <ChevronRight size={20} strokeWidth={1.5} aria-hidden="true" />\n'
+            '      {active ? <StarSolid width={20} /> : <StarOutline width={20} />}\n'
+            '      <svg viewBox="0 0 1200 400" stroke="currentColor"><path stroke-width="0.8" d="M0 0"/><path stroke-width="1.6" d="M0 0"/><path stroke-width="2.4" d="M0 0"/></svg>\n'
+            '    </div>\n'
+            '  );\n'
+            '}\n'
+        )
+        self.assertNotIn("UNM-56", self._scan_text("Coherent.tsx", coherent.replace('"@heroicons/react/24/outline"', '"lucide-react"').replace('"@heroicons/react/24/solid"', '"lucide-react"')))
+        flagged = self._scan_text("Coherent.tsx", coherent)
+        self.assertEqual(flagged & {"UNM-54", "UNM-55", "UNM-57"}, set(), f"False positives: {self._findings}")
+        mixed = [f["message"] for f in self._findings if f["rule"] == "UNM-56"]
+        self.assertEqual(len(mixed), 1)
+        self.assertIn("Families: lucide, heroicons.", mixed[0], "Heroicons outline + solid must count as one family")
+
+    def test_icon_system_gate(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "index.html").write_text("<main><h1>x</h1></main>", encoding="utf-8")
+            (root / "package.json").write_text(json.dumps({"dependencies": {"lucide-react": "1", "react-icons": "5"}}), encoding="utf-8")
+            gate = check_foundations.evaluate_foundations(str(root))["items"]["icon-system"]
+            self.assertEqual(gate["status"], "failing")
+            self.assertIn("lucide", gate["detail"])
+            (root / "package.json").write_text(json.dumps({"dependencies": {"lucide-react": "1"}}), encoding="utf-8")
+            gate = check_foundations.evaluate_foundations(str(root))["items"]["icon-system"]
+            self.assertEqual(gate["status"], "checked")
 
     def test_ai_search_crawler_gate(self) -> None:
         blocked = "User-agent: *\nDisallow: /\n\nUser-agent: Googlebot\nAllow: /\n"

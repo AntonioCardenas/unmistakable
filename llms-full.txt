@@ -1,6 +1,6 @@
 # Unmistakable: full reference for AI agents and answer engines
 
-> Unmistakable is an open-source (MIT) agent skill that stops coding agents from shipping generic AI-looking web interfaces. It combines taste rules an agent can follow (Visitor Modes, a Direction Contract, a flat depth model, strict type discipline, no invented facts) with a 53-rule offline scanner, a 17-gate ship checklist, design-system and A4 brand-book generators, and technical SEO plus GEO patterns. Scripts use the Python 3.8+ standard library only: no API keys, no network, no telemetry.
+> Unmistakable is an open-source (MIT) agent skill that stops coding agents from shipping generic AI-looking web interfaces. It combines taste rules an agent can follow (Visitor Modes, a Direction Contract, a flat depth model, one graphic language for icons and micrographics, strict type discipline, no invented facts) with a 57-rule offline scanner, an 18-gate ship checklist, design-system and A4 brand-book generators, and technical SEO plus GEO patterns. Scripts use the Python 3.8+ standard library only: no API keys, no network, no telemetry.
 
 Repository: https://github.com/AntonioCardenas/unmistakable
 
@@ -17,21 +17,22 @@ Supported agents: Claude Code, Cursor, Codex CLI, Gemini CLI, GitHub Copilot, Wi
 1. Honor the brief or derive color, contrast, and rhythm from the subject's physical materials. Spent priors: beige/terracotta with display serifs, dark slate with neon glow, and the Tailwind indigo/violet accent.
 2. Match the opening viewport to the Visitor Mode: Persuade (one bold full-viewport idea, at most 25 words of support, one action, no 50/50 split hero), Operate (no hero, open into the workspace), Read (open into the text at a 45ch-68ch measure), Experience (the work owns the first viewport).
 3. Keep light and depth flat: no decorative gradients, gradient text, colored or glow shadows, glassmorphism, blurred orbs, or idle loops. Depth comes from 1px borders and surface tint steps; one neutral `--shadow-overlay` token for menus, popovers, dialogs, and toasts. Resting cards get no shadow.
-4. Typography and structure: at most 2 font families, at most 3 body sizes, `tabular-nums` for numbers, no eyebrow labels, no decorative 01/02 numbering, no nested cards, at most 3 radius steps.
-5. Never invent facts: no fabricated metrics, ratings, testimonials, customer counts, or logos. Brand tokens and SVG logos come from the real source.
-6. Keep development contracts in PRODUCT.md and DESIGN.md, never in shipped markup or JSON-LD.
-7. Verify with `scripts/detect_slop.py`, `scripts/check_foundations.py`, the 60-second slop review, and 1440x900 plus 390x844 renders.
+4. One graphic language: icons, markers, dividers, callouts, status glyphs, small data graphics, spot illustrations, social cards, and favicons come from the motif inventory in DESIGN.md and use its tokens: one icon family, one stroke weight per size, at most 3 icon sizes, currentColor, motifs derived from the product's physical world. Anything DESIGN.md cannot name does not ship (emoji icons, sparkles, stock illustration packs, a second icon library, generated art in another style).
+5. Typography and structure: at most 2 font families, at most 3 body sizes, `tabular-nums` for numbers, no eyebrow labels, no decorative 01/02 numbering, no nested cards, at most 3 radius steps.
+6. Never invent facts: no fabricated metrics, ratings, testimonials, customer counts, or logos. Brand tokens and SVG logos come from the real source.
+7. Keep development contracts in PRODUCT.md and DESIGN.md, never in shipped markup or JSON-LD.
+8. Verify with `scripts/detect_slop.py`, `scripts/check_foundations.py`, the 60-second slop review, and 1440x900 plus 390x844 renders.
 
 ## Commands (`/unmistakable <command> [target]`)
 
 - System and setup: `init`, `system [ref]`, `document`, `extract [target]`
-- Build and steer: `shape`, `build`, `deslop`, `typeset`, `layout`, `colorize`, `animate`, `bolder`, `quieter`, `distill`
+- Build and steer: `shape`, `build`, `deslop`, `graphics`, `typeset`, `layout`, `colorize`, `animate`, `bolder`, `quieter`, `distill`
 - Evaluate: `audit` (six dimensions scored 0-24, P0-P3 findings, no edits), `critique` (memory, competitor swap, squint, mode fit, state completeness, tell count)
 - Harden and ship: `harden`, `optimize`, `seo`, `foundations`, `polish`
 
 ## The 60-second slop review
 
-One point per yes on the first viewport: (1) gradient, glow, glass, or blob present; (2) indigo/violet/purple accent without a brand reason; (3) pill or eyebrow above the h1; (4) 50/50 split hero with a stat strip; (5) any unsourced number, rating, logo, or testimonial; (6) resting cards cast shadows; (7) emoji or sparkle used as an icon; (8) filler copy (elevate, seamless, supercharge, reimagined, cutting-edge); (9) anything moving that the user did not touch; (10) more than 3 radii or more than 5 font sizes. Score 0-1 ship, 2-3 run `deslop`, 4 or more return to `shape`.
+One point per yes on the first viewport: (1) gradient, glow, glass, or blob present; (2) indigo/violet/purple accent without a brand reason; (3) pill or eyebrow above the h1; (4) 50/50 split hero with a stat strip; (5) any unsourced number, rating, logo, or testimonial; (6) resting cards cast shadows; (7) a graphic DESIGN.md cannot name: emoji, sparkle, stock illustration, or an icon from a second set; (8) filler copy (elevate, seamless, supercharge, reimagined, cutting-edge); (9) anything moving that the user did not touch; (10) more than 3 radii or more than 5 font sizes. Score 0-1 ship, 2-3 run `deslop`, 4 or more return to `shape`.
 
 ## Scanner rules (`scripts/detect_slop.py`)
 
@@ -66,7 +67,7 @@ One point per yes on the first viewport: (1) gradient, glow, glass, or blob pres
 - `UNM-29` (P1, A11y): Form <input> missing associated <label>, aria-label, or aria-labelledby.
 - `UNM-30` (P2, Tokens): Scattered hardcoded hex literals outside :root/@theme token definitions.
 - `UNM-31` (P2, RTL): Physical left/right margin or padding on an RTL-enabled document.
-- `UNM-32` (P2, Icons): Raw emoji glyph used inside button or navigation UI chrome.
+- `UNM-32` (P2, Icons): Raw emoji glyph used as an icon in buttons, navigation, headings, or list items.
 - `UNM-33` (P1, SEO): Full HTML document missing lang attribute on <html>.
 - `UNM-34` (P1, SEO): Full HTML document missing <main> landmark.
 - `UNM-35` (P1, SEO): Full HTML document has zero or multiple <h1> elements.
@@ -88,6 +89,10 @@ One point per yes on the first viewport: (1) gradient, glow, glass, or blob pres
 - `UNM-51` (P1, GEO): Malformed JSON-LD block (invalid JSON or missing @context).
 - `UNM-52` (P2, SEO): Relative or non-HTTPS canonical, og:url, og:image, or twitter:image URL.
 - `UNM-53` (P2, SEO): Dead placeholder link (href="#" or href="javascript:...").
+- `UNM-54` (P2, Icons): Icon system drift (more than 2 stroke weights or more than 3 sizes across icons in one file).
+- `UNM-55` (P2, Icons): Hardcoded color inside an icon SVG or icon component (not currentColor or a token).
+- `UNM-56` (P2, Icons): Mixed icon families in one file (e.g. lucide + react-icons, or react-icons/fa + react-icons/md).
+- `UNM-57` (P2, Slop): Stock illustration pack (unDraw, Storyset, Humaaans, DrawKit, Open Peeps, ManyPixels).
 
 Waive a deliberate exception with `/* unmistakable-disable UNM-XX: reason */` (line) or `unmistakable-disable-file` (file). `--report-unused-ignores` fails on stale waivers.
 
@@ -110,6 +115,7 @@ Waive a deliberate exception with `/* unmistakable-disable UNM-XX: reason */` (l
 15. `ci-verification`: CI runs tests or checks
 16. `no-giant-files`: UI source files under 1,000 lines
 17. `ai-search-crawlers`: robots.txt does not block search or AI answer agents (training crawlers may be blocked)
+18. `icon-system`: exactly one icon family across source imports and package.json
 
 ## SEO and GEO summary
 
@@ -149,5 +155,6 @@ python3 scripts/render_brand_book.py design/brand-book-a4.html design/brand-book
 
 - Is Unmistakable free? Yes, MIT licensed.
 - Does it need an API key or network access? No. The scripts run offline on the Python standard library.
+- How does it keep icons and illustrations consistent? DESIGN.md gets a Graphic Language block (icon family, stroke token, sizes, motif inventory, image prompt base); the scanner flags mixed icon families, stroke and size drift, hardcoded icon colors, emoji icons, and stock illustration packs.
 - Will it block a brand that is genuinely purple? No. Record the brand in DESIGN.md and waive `UNM-42` once with a reason.
 - Does it replace axe or Lighthouse? No. It complements them by catching taste-level and content-level tells they do not check.

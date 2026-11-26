@@ -24,6 +24,7 @@ Evidence-first workflow for capturing product context (`PRODUCT.md`), documentin
    - **Existing codebase (`document` / `system .`):** Read global stylesheets (`styles.css`, `globals.css`, `tailwind.config.*`, `@theme`), `<head>` font links (`next/font`, `@font-face`, Google Fonts), public SVG marks, and 2-3 representative screens.
    - **Live URL (`system <url>`):** Fetch HTML and linked stylesheets; extract `:root` custom properties, computed hex/OKLCH values, `<link rel="stylesheet">` font families, `<title>` / meta description tagline, and inline `<svg>` wordmark.
    - **Screenshot or Brand Brief (`system <image>`):** Inspect canvas background, surface elevation, primary/secondary/tertiary accents, serif/sans/mono proportions, corner radii, and border treatment.
+   - **Graphic language (every source):** Record the icon family and version (from imports or `package.json`), icon stroke width and caps, icon sizes, recurring motifs (rules, markers, illustration style), and any existing image-generation prompts. Flag mixed icon families instead of copying them into the system.
 2. **Confirm extraction concisely:** List extracted colors, fonts, surface polarity (light/dark/dual), tagline, and missing items in 5-8 lines. Proceed immediately once confirmed (or right away when the source is complete).
 3. **Write synchronized artifacts:**
    - `PRODUCT.md` (when missing and product context is known)
@@ -87,6 +88,14 @@ Use these structures as sensible defaults; omit sections lacking source evidence
 - **Spacing Unit:** `4px` (`0.25rem`) base; section separation `clamp(3.5rem, 7vw, 6rem)`
 - **Radii & Depth:** `--radius-sm: <val>`, `--radius-md: <val>`, `1px` solid borders
 - **Motion:** `160ms cubic-bezier(0.22, 1, 0.36, 1)` on `transform` and `opacity`; reduced-motion safe
+
+## Graphic Language (Micrographics)
+- **Source world:** <one line from the visual thesis>
+- **Construction:** `--stroke-icon: <1.5px>` on a <24px> grid; <round | square> caps and joins; corner <2px>
+- **Icon family:** <one library and version, or custom>; sizes `--icon-sm` / `--icon-md` / `--icon-lg`; color `currentColor`
+- **Motif inventory:** <5-9 named marks drawn from the source world>
+- **Never:** <motifs from other worlds>
+- **Image prompt base:** <reusable prompt naming medium, palette values, line weight, motifs, and exclusions; omit if no generated imagery>
 ```
 
 ## Output 1: design/tokens.css and tokens.json
@@ -102,7 +111,8 @@ Start from `assets/design-system-template.html` and replace every `{{TOKEN}}` pl
 3. **Typography & 3-Size Body Ladder:** Live specimens for `--text-display`, `--text-heading`, `--text-body` (`tabular-nums`), and `--text-sm`.
 4. **Principles:** Documented brand rules (omit if undocumented).
 5. **Core Controls & States:** Primary button (`>= 44px` height), segmented mode control (`aria-pressed`), and `16px` input with themed `:focus-visible` and `::selection`.
-6. **Icons & Wordmark Lockups:** Brand SVG icon style and applicable wordmark treatments.
+6. **Graphic language:** Source world, icon family, construction tokens, and one tile per motif in the inventory, each an inline SVG in `currentColor` (see `references/micrographics.md`).
+7. **Wordmark lockups:** Applicable wordmark treatments.
 
 ## Output 3: design/brand-book-a4.html and PDF rendering
 

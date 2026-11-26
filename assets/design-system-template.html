@@ -35,6 +35,8 @@
 
       --radius-sm: {{RADIUS_SM}};
       --radius-md: {{RADIUS_MD}};
+      --stroke-hairline: 1px;
+      --stroke-icon: {{ICON_STROKE}};
       --space-unit: 0.25rem;
       --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
     }
@@ -104,6 +106,8 @@
     }
 
     section { display: flex; flex-direction: column; gap: 1.5rem; }
+    .motif-tile { margin: 0; color: var(--color-text); }
+    .motif-tile svg { inline-size: 3rem; block-size: 3rem; stroke-width: var(--stroke-icon); }
     section > h2 {
       margin: 0;
       font-family: var(--font-display);
@@ -391,6 +395,22 @@
             <span>Filter</span>
             <input class="input-field" type="text" placeholder="Search tokens" />
           </label>
+        </div>
+      </section>
+
+      <!-- Graphic language: one tile per motif in DESIGN.md's inventory. Every SVG uses
+           fill="none" stroke="currentColor" so it inherits tokens; never paste stock art here. -->
+      <section aria-labelledby="graphics-heading">
+        <h2 id="graphics-heading">Graphic language</h2>
+        <div class="type-specimen">
+          <div class="type-row"><span class="type-spec">Source world</span><span>{{GRAPHIC_SOURCE_WORLD}}</span></div>
+          <div class="type-row"><span class="type-spec">Icon set</span><span>{{ICON_SET}}</span></div>
+          <div class="type-row"><span class="type-spec">Construction</span><span>{{ICON_STROKE}} stroke, {{ICON_CAPS}}, {{ICON_SIZES}}</span></div>
+        </div>
+        <div class="wordmark-grid">
+          <figure class="wordmark-tile motif-tile">{{MOTIF_1_SVG}}<figcaption class="swatch-role">{{MOTIF_1_NAME}}</figcaption></figure>
+          <figure class="wordmark-tile motif-tile">{{MOTIF_2_SVG}}<figcaption class="swatch-role">{{MOTIF_2_NAME}}</figcaption></figure>
+          <figure class="wordmark-tile motif-tile">{{MOTIF_3_SVG}}<figcaption class="swatch-role">{{MOTIF_3_NAME}}</figcaption></figure>
         </div>
       </section>
 

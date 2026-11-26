@@ -1,5 +1,5 @@
 name: Unmistakable AI-Slop Scanner
-description: Fail pull requests that ship AI-slop UI, accessibility, Core Web Vitals, and SEO/GEO defects. 53 offline rules with SARIF output.
+description: Fail pull requests that ship AI-slop UI, icon and graphic drift, accessibility, Core Web Vitals, and SEO/GEO defects. 57 offline rules with SARIF output.
 author: Antonio Cardenas
 branding:
   icon: eye

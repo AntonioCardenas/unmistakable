@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline 17-gate production readiness, design-system, and SEO/GEO checker.
+"""Offline 18-gate production readiness, design-system, and SEO/GEO checker.
 
 Inspects a repository offline to report which product, accessibility, token,
 and search-engine foundations are in place, failing, or not applicable.
@@ -428,6 +428,35 @@ def evaluate_foundations(root_str: str) -> Dict[str, object]:
             "opt out of training crawlers (GPTBot, ClaudeBot, Google-Extended, CCBot) separately. Check CDN/WAF bot rules too.",
         )
 
+    # 18. icon-system
+    if not is_web_app:
+        record("icon-system", "not_applicable", "Not a web UI project.", "")
+    else:
+        icon_sources: Dict[str, str] = {}
+        for rel, f in rel_map.items():
+            if f.suffix.lower() in UI_CODE_EXTS | {".ts", ".js", ".mjs"}:
+                for _, family, _ in detect_slop.icon_imports(safe_read(f) or ""):
+                    icon_sources.setdefault(family, rel)
+        if pkg_file:
+            try:
+                pkg_data = json.loads(safe_read(pkg_file) or "{}")
+                for dep in {**(pkg_data.get("dependencies") or {}), **(pkg_data.get("devDependencies") or {})}:
+                    family = detect_slop.icon_family(dep)
+                    if family:
+                        icon_sources.setdefault(family, "package.json")
+            except ValueError:
+                pass
+        if any(f.startswith("react-icons/") for f in icon_sources):
+            icon_sources.pop("react-icons", None)
+        if len(icon_sources) > 1:
+            listed = ", ".join(f"{fam} ({src})" for fam, src in sorted(icon_sources.items()))
+            record("icon-system", "failing", f"{len(icon_sources)} icon families in use: {listed}.",
+                   "Name one icon family in DESIGN.md (Graphic Language), migrate the rest, and remove unused icon packages.")
+        else:
+            only = next(iter(icon_sources), None)
+            record("icon-system", "checked",
+                   f"One icon family ({only})." if only else "No icon library; inline SVG only.", "")
+
     failing_ids = [k for k, v in items.items() if v["status"] == "failing"]
     checked_ids = [k for k, v in items.items() if v["status"] == "checked"]
     na_ids = [k for k, v in items.items() if v["status"] == "not_applicable"]
@@ -444,7 +473,7 @@ def evaluate_foundations(root_str: str) -> Dict[str, object]:
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
-    parser = argparse.ArgumentParser(description="Check 17 production, design-system, and SEO/GEO foundations.")
+    parser = argparse.ArgumentParser(description="Check 18 production, design-system, and SEO/GEO foundations.")
     parser.add_argument("root", nargs="?", default=".", help="Project root directory (default: .)")
     parser.add_argument("--json", action="store_true", help="Print JSON output")
     parser.add_argument("--id", dest="gate_id", help="Check a single foundation gate ID")

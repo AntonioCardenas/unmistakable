@@ -10,6 +10,7 @@ Authored following `robonuggets/skill-creator-plus` (`references/testing.md`) to
 - Prompt 5: Negative control (should not trigger)
 - Prompt 6: De-slop a generic SaaS page ("modern and premium")
 - Prompt 7: AI answer-engine visibility without training access
+- Prompt 8: Icons and spot illustrations that match the design system
 
 ### Prompt 1: Brand landing page without AI slop (`Persuade`)
 Prompt: `Build a marketing landing page in Astro for a precision Swiss espresso grinder called Helvetia Mill. Make it production-ready and search-friendly.`
@@ -57,3 +58,10 @@ Should trigger: yes
 First file agent should open: `references/seo-and-geo-patterns.md`
 No-skill baseline misses: Blocks every AI user agent in robots.txt (which also removes the site from AI answers), ignores the CDN's bot rules, leaves docs rendered client-side, and promises that `llms.txt` will improve rankings.
 Done looks like: `app/robots.ts` allows search and user-triggered agents while disallowing training crawlers, a note to verify the CDN/WAF in logs, server-rendered answer-first docs with valid `@graph` JSON-LD, an honest `llms.txt`, and a passing `ai-search-crawlers` gate in `scripts/check_foundations.py`.
+
+### Prompt 8: Icons and spot illustrations that match the design system
+Prompt: `Add icons and a few small illustrations to our onboarding screens. Keep it consistent with our design system.`
+Should trigger: yes
+First file agent should open: `references/micrographics.md` (plus the project's `DESIGN.md`)
+No-skill baseline misses: Installs a second icon library beside the existing one, mixes `size={16}`, `size={20}`, `size={22}`, and `size={28}` with stroke widths 1, 1.5, and 2, hardcodes brand hex values inside SVGs, drops in unDraw illustrations with their default purple, and uses ✅ emoji bullets.
+Done looks like: The Graphic Language block in `DESIGN.md` names one icon family, `--stroke-icon`, three sizes, and a motif inventory; icons use `currentColor`; spot art is composed from inventory motifs; `scripts/detect_slop.py` reports no `UNM-32`, `UNM-54` to `UNM-57` findings; the `icon-system` gate passes.

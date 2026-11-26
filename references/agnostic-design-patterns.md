@@ -39,7 +39,7 @@ Keep desktop navigation on one compact horizontal line, giving the brand wordmar
 Before writing UI code for a new surface or redesign, record a compact ~150-word contract in `DESIGN.md` or a local surface brief (`NEVER` inside shipped HTML comments, DOM attributes, client bundles, or JSON-LD):
 
 - **THESIS:** The single memorable idea this surface owns and the category cliché it refuses.
-- **OWN-WORLD:** Physical scene (who uses it, where, under what ambient light), material palette, and control vocabulary recognizable even with all text blurred.
+- **OWN-WORLD:** Physical scene (who uses it, where, under what ambient light), material palette, control vocabulary, and the 5-9 micrographic motifs drawn from that world, recognizable even with all text blurred.
 - **FIRST VIEWPORT:** Exact opening composition, scale, and primary action placement.
 - **STATES & A11Y:** Loading, empty, error, hover, `:focus-visible`, and `prefers-reduced-motion` behavior.
 - **SEO & GEO:** Primary entity, single `<h1>` intent, Schema.org type, and answer-first proof structure (mark `N/A - authenticated workspace` for private app screens).

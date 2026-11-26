@@ -1,6 +1,6 @@
 {
   "skill": "unmistakable",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "cases": [
     {
       "id": "persuade-landing-anti-slop-seo",
@@ -89,6 +89,22 @@
         "Rewrites key sections answer-first with self-contained passages and semantic tables",
         "Describes llms.txt as optional insurance rather than a ranking factor",
         "Runs scripts/check_foundations.py and passes the ai-search-crawlers gate"
+      ]
+    },
+    {
+      "id": "graphics-icon-coherence",
+      "query": "Add icons and a few small illustrations to our onboarding screens. Keep it consistent with our design system.",
+      "should_trigger": true,
+      "expected_references": [
+        "references/micrographics.md",
+        "references/brand-and-design-system.md"
+      ],
+      "expected_behavior": [
+        "Reads or writes the Graphic Language block in DESIGN.md (icon family, stroke token, sizes, motif inventory) before adding any graphic",
+        "Uses only the one icon family already in the project and draws icons with --stroke-icon and currentColor",
+        "Builds spot illustrations from the motif inventory instead of stock packs (unDraw, Storyset) or emoji",
+        "Runs scripts/detect_slop.py with no UNM-32, UNM-54, UNM-55, UNM-56, or UNM-57 findings and passes the icon-system foundations gate",
+        "Applies the belongs test: every graphic can be named from the motif inventory"
       ]
     },
     {

@@ -1,7 +1,7 @@
 {
   "name": "unmistakable",
-  "version": "1.1.0",
-  "description": "Anti-slop frontend design skill for coding agents: bans purple gradients, neon glows, glass cards, and heavy shadows, with a 53-rule offline scanner, living design systems and A4 brand books, and technical SEO + GEO.",
+  "version": "1.2.0",
+  "description": "Anti-slop frontend design skill for coding agents: bans purple gradients, neon glows, glass cards, heavy shadows, and mixed icon sets, keeps micrographics in one graphic language, with a 57-rule offline scanner, living design systems, A4 brand books, and technical SEO + GEO.",
   "license": "MIT",
   "author": {
     "name": "Antonio Cardenas",
@@ -26,6 +26,7 @@
     "README.md",
     "README.es.md",
     "LICENSE",
+    "DESIGN.md",
     "llms.txt",
     "llms-full.txt",
     "assets/",
@@ -73,6 +74,9 @@
     "seo-audit",
     "ai-search",
     "answer-engine-optimization",
-    "skill"
+    "skill",
+    "micrographics",
+    "icons",
+    "visual-consistency"
   ]
 }

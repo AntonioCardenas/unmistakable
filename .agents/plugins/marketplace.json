@@ -5,15 +5,15 @@
     "url": "https://github.com/AntonioCardenas"
   },
   "metadata": {
-    "description": "Anti-slop frontend design skill for coding agents: bans purple gradients, neon glows, glass cards, and heavy shadows, with a 53-rule offline scanner, living design systems and A4 brand books, and technical SEO + GEO.",
-    "version": "1.1.0"
+    "description": "Anti-slop frontend design skill for coding agents: bans purple gradients, neon glows, glass cards, heavy shadows, and mixed icon sets, keeps micrographics in one graphic language, with a 57-rule offline scanner, living design systems, A4 brand books, and technical SEO + GEO.",
+    "version": "1.2.0"
   },
   "plugins": [
     {
       "name": "unmistakable",
       "source": "./",
-      "description": "Design, audit, and ship web interfaces without AI slop: no purple gradients, glows, glass, or heavy shadows. 53-rule scanner, A4 brand books, and SEO/GEO-ready frontends.",
-      "version": "1.1.0",
+      "description": "Design, audit, and ship web interfaces without AI slop: no purple gradients, glows, glass, heavy shadows, or mixed icon sets. 57-rule scanner, one graphic language, A4 brand books, and SEO/GEO-ready frontends.",
+      "version": "1.2.0",
       "author": {
         "name": "Antonio Cardenas"
       },
@@ -34,7 +34,8 @@
         "antigravity",
         "ai-slop",
         "tailwind",
-        "design-linter"
+        "design-linter",
+        "micrographics"
       ]
     }
   ]

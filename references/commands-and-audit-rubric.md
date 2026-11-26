@@ -1,13 +1,13 @@
-# Commands Playbook, Audit Rubric, and 53-Rule Anti-Slop Catalog
+# Commands Playbook, Audit Rubric, and 57-Rule Anti-Slop Catalog
 
-Execution guide for all 19 `/unmistakable` commands, the 24-point Technical Audit Health Score (`0-4` across 6 dimensions), and the 53 deterministic rules enforced by `scripts/detect_slop.py`.
+Execution guide for all 20 `/unmistakable` commands, the 24-point Technical Audit Health Score (`0-4` across 6 dimensions), and the 57 deterministic rules enforced by `scripts/detect_slop.py`.
 
 ## Contents
 - Command execution playbooks
 - Technical audit rubric (24-point health score)
 - Critique rubric (UX and visual direction review)
-- Foundations roadmap (17 ship-readiness gates)
-- Deterministic 53-rule catalog (UNM-01 to UNM-53)
+- Foundations roadmap (18 ship-readiness gates)
+- Deterministic 57-rule catalog (UNM-01 to UNM-57)
 
 ## Command execution playbooks
 
@@ -23,6 +23,7 @@ Execution guide for all 19 `/unmistakable` commands, the 24-point Technical Audi
 - **`typeset [target]`:** Collapse drifted font sizes into at most 3 body steps, cap families at 2 (`tabular-nums` for numbers), enforce `45ch-68ch` prose measure, apply `text-wrap: balance` / `pretty`, and set `>= 16px` on form inputs.
 - **`layout [target]`:** Diagnose reading order with the squint test; replace nested card cages with proximity spacing and `1px` dividers, enforce `min-width: 0` on flex/grid children, and vary section composition below the fold.
 - **`colorize [target]`:** Introduce intentional color hierarchy from `DESIGN.md` (`Restrained`, `Committed`, or `Color-Blocked`), tint secondary neutrals from the canvas hue, and fix every `< 4.5:1` contrast pair.
+- **`graphics [target]`:** Make every micrographic speak one language (`references/micrographics.md`). Inventory each graphic on the target: icons, markers, dividers, callouts, status glyphs, small data graphics, spot art, social card, favicon. Write or confirm the Graphic Language block in `DESIGN.md` (derived from OWN-WORLD when missing). Consolidate to one icon family (`UNM-56`, gate `icon-system`), one stroke and three sizes (`UNM-54`), and `currentColor` (`UNM-55`); replace emoji (`UNM-32`) and stock illustrations (`UNM-57`) with inventory motifs; delete decoration the inventory cannot name. Finish with the belongs test on both viewports.
 - **`animate [target]`:** Add one orchestrated entrance or spatial transition plus crisp `140ms-240ms` `cubic-bezier(0.22, 1, 0.36, 1)` control feedback on explicit properties (`transform`, `opacity`, `clip-path`), guarded by `@media (prefers-reduced-motion: reduce)`.
 - **`bolder [target]`:** Amplify timid, generic layouts: commit to monumental hero typography, edge-to-edge imagery or live interactive stages, stronger scale contrast, and decisive surface fields while preserving product copy truth.
 - **`quieter [target]`:** Calm visually noisy screens: remove competing accent colors, decorative glows, redundant borders, and gratuitous motion so primary content and controls breathe.
@@ -46,7 +47,7 @@ During `/unmistakable audit`, score each dimension `0-4` (`0 = Critical`, `1 = M
 |---|---|---|---|
 | 1 | **Accessibility (WCAG 2.2 AA)** | `? / 4` | Contrast `>= 4.5:1`, native `<button>`/`<a>`, labels, `:focus-visible`, `>= 24px` (`44px` primary) touch targets, `prefers-reduced-motion` |
 | 2 | **Performance & Core Web Vitals** | `? / 4` | Eager LCP media (`fetchpriority="high"`), explicit media dimensions (`CLS`), explicit transition properties, no layout thrash (`INP`) |
-| 3 | **Theming & Token Discipline** | `? / 4` | Semantic CSS variables (`--color-*`), zero scattered hex drift, coherent light/dark polarity, themed browser surfaces |
+| 3 | **Theming, Tokens & Graphic Coherence** | `? / 4` | Semantic CSS variables (`--color-*`), zero scattered hex drift, coherent light/dark polarity, themed browser surfaces, one icon family with token strokes and `currentColor`, every micrographic named in `DESIGN.md` |
 | 4 | **Responsive, Overflow & i18n/RTL** | `? / 4` | `min-width: 0`, `>= 16px` mobile inputs, `200%` text zoom, logical CSS (`inline`/`block`), `Intl` formatting, pointer-cancel safety |
 | 5 | **Technical SEO & AI GEO** | `? / 4` | Landmarks (`<main>`), single `<h1>`, title/description/canonical, `1200x630` OG card, Schema.org JSON-LD, answer-first prose, `llms.txt` |
 | 6 | **Implementation Integrity (Anti-Slop)** | `? / 4` | Mode-matched first viewport, 2-family / 3-size body scale, flat depth model (no gradients, glows, glass, heavy shadows, stock purple), zero eyebrows/nested cards/filler copy/invented proof, slop tell count `<= 1` |
@@ -62,11 +63,12 @@ Run `/unmistakable critique` independent of mechanical linter noise first, answe
 3. **The Squint Test:** With the screen blurred, do the primary focal point, primary action, and section cadence separate cleanly?
 4. **Surface Mode Honesty:** Did an `Operate` or `Read` screen accidentally get buried under a marketing hero, or did a `Persuade` page collapse into a `50/50` template and 3-column icon cards?
 5. **State Completeness:** What happens on empty data, 120-character strings, slow networks, and `390px` mobile screens?
-6. **The Tell Count:** Score the 60-second slop review from `references/anti-patterns.md`. `2+` tells on the first viewport means the direction reads as default output regardless of polish.
+6. **The Belongs Test:** Can every graphic on screen be named from the `DESIGN.md` motif inventory, drawn with its stroke and color tokens? Each unnamed mark is a coherence finding.
+7. **The Tell Count:** Score the 60-second slop review from `references/anti-patterns.md`. `2+` tells on the first viewport means the direction reads as default output regardless of polish.
 
-## Foundations roadmap (17 ship-readiness gates)
+## Foundations roadmap (18 ship-readiness gates)
 
-`python3 scripts/check_foundations.py <project-root>` checks 17 production gates offline (`checked`, `failing`, or `not_applicable`):
+`python3 scripts/check_foundations.py <project-root>` checks 18 production gates offline (`checked`, `failing`, or `not_applicable`):
 1. `secrets-out-of-repo` - No private keys or live secret values tracked in repo files (never echo a detected secret value).
 2. `design-tokens` - Semantic CSS custom properties (`--color-*` or `@theme`) defined and consumed via `var()`.
 3. `no-ai-slop-patterns` - Zero `P0`/`P1` anti-slop or accessibility errors from `scripts/detect_slop.py`.
@@ -84,10 +86,11 @@ Run `/unmistakable critique` independent of mechanical linter noise first, answe
 15. `ci-verification` - `.github/workflows/*.yml` (or CI config) executes tests or static checks on push/PR.
 16. `no-giant-files` - Hand-authored UI source files stay under `1,000` lines for maintainable modularity.
 17. `ai-search-crawlers` - A static robots.txt does not fully block search or AI answer agents (`Googlebot`, `Bingbot`, `OAI-SearchBot`, `ChatGPT-User`, `Claude-SearchBot`, `Claude-User`, `PerplexityBot`); training-only crawlers may be blocked.
+18. `icon-system` - Exactly one icon family across source imports and `package.json` (outline and solid variants of one family count once; `react-icons` sub-packages count separately).
 
-## Deterministic 53-rule catalog (UNM-01 to UNM-53)
+## Deterministic 57-rule catalog (UNM-01 to UNM-57)
 
-`scripts/detect_slop.py` enforces 53 rules across markup, stylesheets, inline styles, JSX style objects, and Tailwind utilities. Gate CI on a severity with `--fail-on P1`. Suppress a verified intentional exception on one line or file with `<!-- unmistakable-disable UNM-XX: reason -->` or `/* unmistakable-disable UNM-XX: reason */`.
+`scripts/detect_slop.py` enforces 57 rules across markup, stylesheets, inline styles, JSX style objects, and Tailwind utilities. Gate CI on a severity with `--fail-on P1`. Suppress a verified intentional exception on one line or file with `<!-- unmistakable-disable UNM-XX: reason -->` or `/* unmistakable-disable UNM-XX: reason */`.
 
 | ID | Sev | Scope | Rule Summary |
 |---|---|---|---|
@@ -122,7 +125,7 @@ Run `/unmistakable critique` independent of mechanical linter noise first, answe
 | `UNM-29` | P1 | A11y | Form `<input>` lacking associated `<label>`, `aria-label`, or `aria-labelledby` |
 | `UNM-30` | P2 | Tokens | Scattered hardcoded hex color literals (`> 6` outside `:root` / `@theme` token blocks) |
 | `UNM-31` | P2 | RTL | Physical `margin-left`/`right` or `padding-left`/`right` on `dir="rtl"` surface |
-| `UNM-32` | P2 | Icons | Raw emoji characters used inside UI buttons, nav items, or feature badges instead of SVG icons |
+| `UNM-32` | P2 | Icons | Raw emoji used as icons in buttons, links, nav, headings, list items, labels, or table headers |
 | `UNM-33` | P1 | SEO | Full HTML document missing `<html lang="...">` attribute |
 | `UNM-34` | P1 | SEO | Full HTML document missing `<main>` landmark |
 | `UNM-35` | P1 | SEO | Zero or multiple `<h1>` elements in a single page template |
@@ -144,3 +147,7 @@ Run `/unmistakable critique` independent of mechanical linter noise first, answe
 | `UNM-51` | P1 | GEO | `application/ld+json` block that is invalid JSON or lacks `@context` |
 | `UNM-52` | P2 | SEO | Relative or `http://` canonical, `og:url`, `og:image`, or `twitter:image` |
 | `UNM-53` | P2 | SEO | Dead placeholder link (`href="#"` or `href="javascript:..."`) |
+| `UNM-54` | P2 | Icons | Icon drift: more than 2 stroke weights or more than 3 sizes across inline SVG icons and icon components in one file |
+| `UNM-55` | P2 | Icons | Hardcoded hex/rgb/hsl `fill`, `stroke`, or `color` inside an icon SVG or icon component (logos and flags exempt) |
+| `UNM-56` | P2 | Icons | Imports from more than one icon family in one file (`react-icons` sub-packages count separately) |
+| `UNM-57` | P2 | Slop | Stock illustration pack reference (unDraw, Storyset, Humaaans, DrawKit, Open Peeps, ManyPixels, Blush) |

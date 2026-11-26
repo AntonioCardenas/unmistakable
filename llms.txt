@@ -1,6 +1,6 @@
 # Unmistakable
 
-> Unmistakable is an open-source agent skill (MIT) that stops coding agents from shipping generic AI-looking web interfaces. It bans default tells such as purple gradients, neon glows, glassmorphism, heavy shadows, eyebrow pills, 50/50 heroes, and invented social proof, and enforces them with a 53-rule offline scanner (Python standard library, SARIF output, GitHub Action). It also generates living design systems and 1-page A4 brand books, and ships technical SEO plus GEO (AI answer-engine visibility) patterns.
+> Unmistakable is an open-source agent skill (MIT) that stops coding agents from shipping generic AI-looking web interfaces. It bans default tells such as purple gradients, neon glows, glassmorphism, heavy shadows, eyebrow pills, 50/50 heroes, mixed icon sets, stock illustrations, and invented social proof, keeps every icon and micrographic in one graphic language from DESIGN.md, and enforces it with a 57-rule offline scanner (Python standard library, SARIF output, GitHub Action). It also generates living design systems and 1-page A4 brand books, and ships technical SEO plus GEO (AI answer-engine visibility) patterns.
 
 Works with Claude Code, Cursor, Codex CLI, Gemini CLI, GitHub Copilot, Windsurf, OpenCode, and Google Antigravity. Framework-agnostic: React, Next.js, Vue, Nuxt, SvelteKit, Astro, Angular, Tailwind CSS, and plain HTML/CSS.
 
@@ -13,19 +13,20 @@ Works with Claude Code, Cursor, Codex CLI, Gemini CLI, GitHub Copilot, Windsurf,
 
 ## Docs
 
-- [SKILL.md](https://github.com/AntonioCardenas/unmistakable/blob/main/SKILL.md): router, 7 standing rules, Visitor Modes, and build, system, and audit workflows
+- [SKILL.md](https://github.com/AntonioCardenas/unmistakable/blob/main/SKILL.md): router, 8 standing rules, Visitor Modes, and build, system, and audit workflows
 - [README](https://github.com/AntonioCardenas/unmistakable/blob/main/README.md): overview, before/after, install, scanner, GitHub Action, commands, FAQ
 - [Anti-patterns catalog](https://github.com/AntonioCardenas/unmistakable/blob/main/references/anti-patterns.md): every AI tell with why it reads as default, the fix, the rule ID, and the 60-second slop review
+- [Micrographics](https://github.com/AntonioCardenas/unmistakable/blob/main/references/micrographics.md): one graphic language: the Graphic Language block for DESIGN.md, motifs derived from the product's world, icon system rules, micrographic tokens, spot art, generated-imagery prompt bases, and the belongs test
 - [Design patterns](https://github.com/AntonioCardenas/unmistakable/blob/main/references/agnostic-design-patterns.md): Visitor Modes, opening viewports, 3-tier CSS tokens, 2-family / 3-size type, motion, craft floor
 - [SEO and GEO patterns](https://github.com/AntonioCardenas/unmistakable/blob/main/references/seo-and-geo-patterns.md): head contract, JSON-LD, passage-level GEO writing, AI crawler access matrix, llms.txt limits, measurement
 - [Production hardening](https://github.com/AntonioCardenas/unmistakable/blob/main/references/production-hardening.md): overflow, RTL, Intl, error states, pointer gestures, WCAG 2.2 AA, Core Web Vitals
 - [Brand and design systems](https://github.com/AntonioCardenas/unmistakable/blob/main/references/brand-and-design-system.md): evidence-first extraction into DESIGN.md, tokens.css, design-system.html, and an A4 PDF
-- [Commands and rule catalog](https://github.com/AntonioCardenas/unmistakable/blob/main/references/commands-and-audit-rubric.md): 19 command playbooks, 24-point audit rubric, UNM-01 to UNM-53
+- [Commands and rule catalog](https://github.com/AntonioCardenas/unmistakable/blob/main/references/commands-and-audit-rubric.md): 20 command playbooks, 24-point audit rubric, UNM-01 to UNM-57
 
 ## Tools
 
-- `scripts/detect_slop.py`: 53-rule scanner for HTML, JSX, TSX, Vue, Svelte, Astro, CSS, SCSS, inline styles, and Tailwind classes (`--json`, `--sarif`, `--fail-on`, `--list-rules`)
-- `scripts/check_foundations.py`: 17 ship-readiness gates including AI crawler access in robots.txt
+- `scripts/detect_slop.py`: 57-rule scanner for HTML, JSX, TSX, Vue, Svelte, Astro, CSS, SCSS, inline styles, icon imports, and Tailwind classes (`--json`, `--sarif`, `--fail-on`, `--list-rules`)
+- `scripts/check_foundations.py`: 18 ship-readiness gates including AI crawler access in robots.txt and a single icon family
 - `scripts/render_brand_book.py`: renders a 1-page A4 brand book PDF with headless Chrome, Chromium, Brave, or Edge
 
 ## Optional

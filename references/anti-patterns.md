@@ -87,7 +87,10 @@ Resting cards, buttons, inputs, sections, and images get no shadow. No shadow is
 
 | Tell | Why it reads as default | Do instead | Rule |
 |---|---|---|---|
-| Emoji or sparkle glyphs as icons (✨ for "AI", ⚡ for "fast") | Placeholder iconography that shipped | One SVG icon set at one stroke weight | `UNM-32` |
+| Emoji or sparkle glyphs as icons or bullets (✨ for "AI", ⚡ for "fast", ✅ list items) | Placeholder iconography that shipped | One SVG icon family at one stroke weight | `UNM-32` |
+| Two icon libraries in one product (lucide beside react-icons, Font Awesome beside Material) | Different grids, weights, and metaphors side by side | One family named in `DESIGN.md` | `UNM-56` |
+| Stock illustration packs (unDraw, Storyset, Humaaans, DrawKit, Open Peeps) | The most recognized template look on the web | Spot art built from the `DESIGN.md` motif inventory | `UNM-57` |
+| Generated hero or spot art with garbled lettering, or in a style unlike the rest of the product | Reads as unreviewed output and breaks the graphic language | One reusable prompt base in `DESIGN.md`; lettering in live HTML | review |
 | Sparkle icon on anything AI-powered | The universal "magic" shorthand | Name the actual capability in words | review |
 | Colored side-stripe on rounded callout cards (`border-left: 4px`) | Generated admonition style | Full `1px` border, tint, or a leading icon | `UNM-05` |
 | Fake `LIVE` dots and `SCROLL DOWN` cues | Simulated activity | Real status only; let layout imply continuation | `UNM-08` |
@@ -131,7 +134,9 @@ The "nobody reviewed this" tells. Each is small; together they are why generated
 | Off-grid spacing (`13px`, `17px`, `37px`, `p-[13px]`) | Eyeballed nudges instead of a scale | 4px-based spacing tokens | `UNM-49` |
 | `z-index: 9999` | Escalation instead of a layering model | Named scale: `--z-header`, `--z-overlay`, `--z-toast` | `UNM-49` |
 | Raw hex values scattered through components | No token layer, so themes drift | Semantic `--color-*` tokens | `UNM-30` |
-| Mixed icon sets and stroke weights | Assembled from several libraries | One set, one stroke width, one size scale | review |
+| Icon stroke weights or sizes drifting across one screen | Assembled from several sources | `--stroke-icon` and three `--icon-*` sizes | `UNM-54` |
+| Hex colors hardcoded inside icon SVGs | Icons ignore the theme and break in dark mode | `currentColor` | `UNM-55` |
+| A different divider or ornament style in every section | No rule system | One hairline rule; ornaments only from the motif inventory | review |
 | Missing states: hover, focus, disabled, loading, empty, error | Only the happy path was built | All five states from `production-hardening.md` | `UNM-26` + audit |
 | Buttons of different heights in one row; baselines that do not line up across columns | No control-height token | One control height; align on a shared baseline | review |
 | Double borders where cards meet | Borders on both neighbors | Border on one side, or gap plus a single divider | review |
@@ -152,7 +157,7 @@ Run this on the first viewport before calling any UI done. Add one point per yes
 4. Is the opening a `50/50` split with a stat strip under it?
 5. Is any number, rating, logo, or testimonial on screen unsourced?
 6. Do resting cards cast shadows?
-7. Is an emoji or sparkle standing in for an icon?
+7. Is there a graphic `DESIGN.md` cannot name: an emoji, a sparkle, a stock illustration, or an icon from a second set?
 8. Does any copy use the filler list in section 5?
 9. Is anything moving that the user did not touch?
 10. Are there more than three corner radii or more than five font sizes on screen?
